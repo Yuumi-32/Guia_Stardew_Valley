@@ -209,6 +209,21 @@ Se for mexer no arquivo, tudo está no `<script>` do fim do `index.html`:
 
 Anos 2 e 3 usam a função `mkEstacao()`, que preenche com a rotina padrão os dias sem evento.
 
+### Refazendo as capturas de `capturas/`
+
+Elas alimentam a tela de instalação do Android, e o Chrome é exigente com o formato — mexer nelas no olho quebra o cartão de instalação sem avisar. As regras:
+
+- cada lado entre 320 e 3840 pixels;
+- o lado maior no máximo **2,3 vezes** o menor;
+- **mesma proporção** dentro de cada grupo, e pelo menos uma `wide` e uma `narrow`.
+
+O que está lá hoje: celular a **1170×2532** (viewport de 390×844 a 3×) e tela larga a **1920×1080** (1280×720 a 1,5×).
+
+> [!WARNING]
+> Não dá para capturar o layout de celular com `chrome --headless --screenshot --window-size`: o Chrome headless força uma viewport mínima de **500px**, então sai o layout de desktop cortado. É preciso emular o dispositivo de verdade, pelo `Emulation.setDeviceMetricsOverride` do DevTools Protocol, ou pelo painel de dispositivos do navegador.
+
+Depois de capturar, salve em paleta indexada de 256 cores: a interface é de cores chapadas e isso corta uns 60% do peso sem diferença visível. Se mudar o tamanho, atualize também o `sizes` de cada uma no `manifest.webmanifest` — ele precisa bater com o arquivo.
+
 > [!IMPORTANT]
 > A chave de cada marcação sai do **texto do item**, não da posição dele na lista. Na prática: acrescentar, tirar ou reordenar tarefas é de graça — ninguém perde o que já tinha marcado. Mas **reescrever o texto de uma tarefa apaga a marcação dela** em quem já usa o guia, porque vira outro item. Para corrigir só um erro de digitação, vale pesar se compensa.
 
