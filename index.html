@@ -19,6 +19,8 @@
   --key:#6fb0e8; --key-soft:#15263a; --key-line:#2e5175;
 }
 *{box-sizing:border-box}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cel:focus-visible{outline:2px solid var(--accent);outline-offset:-1px}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Eczar',Georgia,'Times New Roman',serif;
   font-size:16px;line-height:1.5;padding:20px 16px 48px;
@@ -387,7 +389,8 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
       endereço, família e melhores presentes; os de "Outros NPCs" aparecem só como referência visual,
       porque não recebem presentes nem têm aniversário no jogo.
     </div>
-    <input class="busca" id="buscaNpc" placeholder="Buscar aldeão pelo nome...">
+    <input class="busca" id="buscaNpc" type="search" aria-label="Buscar aldeão pelo nome"
+           placeholder="Buscar aldeão pelo nome...">
     <div class="filtros" id="filtros"></div>
     <div id="galerias"></div>
     <div class="ficha" id="ficha"></div>
@@ -1209,6 +1212,7 @@ function renderModes(){
   [['simples','Simples'],['detalhado','Detalhado']].forEach(function(o){
     const b=document.createElement('button');
     b.className='mode'+(modo===o[0]?' on':'');
+    b.setAttribute('aria-pressed', modo===o[0]);
     b.textContent=o[1];
     b.onclick=function(){modo=o[0];pref.gravar('modo',o[0]);renderAll()};
     el.appendChild(b);
@@ -1221,6 +1225,7 @@ function renderYears(){
   YORDER.forEach(k=>{
     const b=document.createElement('button');
     b.className='year'+(ano===k?' on':'');
+    b.setAttribute('aria-pressed', ano===k);
     b.innerHTML=ANOS[k].nome+'<small>'+ANOS[k].hint+'</small>';
     b.onclick=()=>{ano=k;sel=1;renderAll()};
     t.appendChild(b);
@@ -1232,6 +1237,7 @@ function renderTabs(){
     const s=ANOS[ano].est[k];
     const b=document.createElement('button');
     b.className='tab'+(cur===k?' on':'');
+    b.setAttribute('aria-pressed', cur===k);
     b.innerHTML=s.nome+'<small>'+s.hint+'</small>';
     b.onclick=()=>{cur=k;sel=1;renderAll()};
     t.appendChild(b);
@@ -1251,11 +1257,14 @@ function renderCal(){
   let html='<div class="calwrap"><img src="'+CALENDARIOS[cur]+'" alt="'+alt+'">';
   s.days.forEach(function(day){
     const feito=dayDone(ano,cur,day);
+    const rotulo='Dia '+day.d+' — '+day.lab.replace(/<[^>]*>/g,'').replace(/"/g,'')+
+                 (feito?' (concluído)':'');
     html+='<button class="cel'+(day.tag?' '+day.tag:'')+(feito?' done':'')+(sel===day.d?' sel':'')+'"'+
       ' style="'+posDia(day.d)+'" data-d="'+day.d+'"'+
-      ' title="Dia '+day.d+' — '+day.lab.replace(/"/g,'')+'">'+
-      (day.tag?'<span class="mk '+day.tag+'"></span>':'')+
-      '<span class="ok">✓</span></button>';
+      ' title="'+rotulo+'" aria-label="'+rotulo+'"'+
+      (sel===day.d?' aria-current="true"':'')+'>'+
+      (day.tag?'<span class="mk '+day.tag+'" aria-hidden="true"></span>':'')+
+      '<span class="ok" aria-hidden="true">✓</span></button>';
   });
   html+='</div>'+
     '<div class="legenda">'+
@@ -1481,6 +1490,7 @@ function renderFicha(){
   el.querySelectorAll('.pcab').forEach(function(b){
     b.onclick=function(){
       const pai=b.parentNode, abriu=pai.classList.toggle('aberto');
+      b.setAttribute('aria-expanded', abriu);
       b.querySelector('.tog').textContent=abriu?'[Ocultar]':'[Mostrar]';
     };
   });
@@ -1501,7 +1511,7 @@ function blocoHorarios(nome){
   ROTULOS.forEach(function(r){
     const bloco=H[r[0]];
     if(!bloco) return;
-    h+='<div class="painel"><button class="pcab '+r[0]+'">'+r[1]+
+    h+='<div class="painel"><button class="pcab '+r[0]+'" aria-expanded="false">'+r[1]+
        '<span class="tog">[Mostrar]</span></button><div class="pcorpo">';
     Object.keys(bloco).forEach(function(dia){
       h+='<div class="pdia">'+dia+'</div>'+tabelaHr(bloco[dia]);
@@ -1517,6 +1527,7 @@ function renderFiltros(){
    .forEach(function(f){
     const b=document.createElement('button');
     b.className='fbtn'+(filtro===f[0]?' on':'');
+    b.setAttribute('aria-pressed', filtro===f[0]);
     b.textContent=f[1]+(f[0]?' ('+NPCS.filter(function(p){return p.e===f[0]}).length+')':' ('+NPCS.length+')');
     b.onclick=function(){filtro=f[0];renderFiltros();renderGalerias()};
     el.appendChild(b);
@@ -1526,6 +1537,7 @@ $('buscaNpc').oninput=function(e){busca=e.target.value.toLowerCase().trim();rend
 function abrirAba(v){
   $('viewnav').querySelectorAll('.vbtn').forEach(function(x){
     x.className='vbtn'+(x.dataset.v===v?' on':'');
+    x.setAttribute('aria-pressed', x.dataset.v===v);
   });
   document.body.classList.toggle('aldeoes', v==='aldeoes');
   document.body.classList.toggle('cultivos', v==='cultivos');
@@ -1561,6 +1573,7 @@ function renderSeaSel(){
            +COLETA.filter(function(x){return x.sea===s[0]}).length
            +PEIXES.filter(function(x){return x.sea===s[0]}).length;
     b.className='fbtn'+(seaCult===s[0]?' on':'');
+    b.setAttribute('aria-pressed', seaCult===s[0]);
     b.textContent=s[1]+' ('+n+')';
     b.onclick=function(){seaCult=s[0];cultSel=null;pref.gravar('plantacoes',s[0]);renderCultTudo()};
     el.appendChild(b);
