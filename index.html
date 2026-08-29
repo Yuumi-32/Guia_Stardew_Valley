@@ -1736,7 +1736,13 @@ document.addEventListener('keydown', function(e){
   else if(e.key==='ArrowRight'){e.preventDefault();passoDia(1)}
 });
 
-$('reset').onclick=()=>{state={};save();renderAll()};
+$('reset').onclick=()=>{
+  const marcados=Object.keys(state).filter(k=>state[k]).length;
+  if(!marcados) return;
+  if(!confirm('Isto apaga as '+marcados+' marcações dos três anos, neste aparelho. '+
+              'Não dá para desfazer.\n\nZerar mesmo?')) return;
+  state={};save();renderAll();
+};
 renderAll();
 </script>
 </body>
