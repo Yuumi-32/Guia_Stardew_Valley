@@ -86,14 +86,25 @@ git clone https://github.com/Yuumi-32/Guia_Stardew_Valley.git
 
 Depois é só abrir o `index.html` no navegador.
 
-### No celular, offline
+### No celular — instalando como app
+
+Este é o jeito recomendado.
+
+1. Abra **<https://yuumi-32.github.io/Guia_Stardew_Valley/>** no celular.
+2. No menu do navegador, toque em **Instalar app** (Android) ou **Adicionar à Tela de Início** (iPhone, pelo botão de compartilhar).
+3. Pronto. O guia ganha ícone próprio, abre em tela cheia sem a barra do navegador, e **funciona sem internet** — na primeira visita ele guarda tudo no aparelho.
+
+Depois de instalado ele não depende mais de sinal. Quando você abrir com internet, ele busca a versão nova em segundo plano e ela entra na abertura seguinte, sem nunca fazer você esperar.
+
+### No celular — baixando o arquivo
+
+Se preferir não instalar nada, o guia continua sendo um arquivo só:
 
 1. Abra o [`index.html`](index.html) aqui no GitHub e toque em **Baixar** (o ícone de download, ao lado de *Raw*).
 2. Abra o arquivo pelo navegador — no Android, pelo app *Arquivos*; no iPhone, pelo *Arquivos* → *Compartilhar* → abrir no navegador.
 3. Pronto. Depois disso não precisa mais de internet: o guia inteiro está naquele arquivo.
 
-> [!TIP]
-> Não quer baixar nada? O guia está no ar em **<https://yuumi-32.github.io/Guia_Stardew_Valley/>**. Abrindo esse link no celular e usando *Adicionar à tela inicial*, ele ganha ícone e abre em tela cheia, sem a barra do navegador.
+Por esse caminho não há service worker (navegador nenhum roda um em `file://`), então não tem ícone nem tela cheia — e é onde o aviso de progresso não guardado costuma aparecer.
 
 ### Onde o progresso fica salvo
 
@@ -156,13 +167,15 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 - [x] Navegar de um dia para o outro sem voltar ao calendário
 - [x] Conferir os 24 peixes que estavam incompletos — os 57 têm hora, clima, preço, dificuldade e tamanho
 - [x] Exportar e importar o progresso, para levar do celular pro computador
-- [ ] **Virar PWA** — um `manifest.json` e um service worker já dão ícone na tela inicial e offline de verdade, sem precisar reescrever nada
+- [x] **Virar PWA** — instala na tela inicial com ícone próprio, abre em tela cheia e funciona sem rede, pelo service worker
 - [ ] **Empacotar como APK** para publicar na Play Store
 - [ ] Ilha Gengibre e o que vem depois do Ano 3
 
 ## Tecnologia
 
 Um arquivo HTML de ~737 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
+
+Ao lado dele moram o `manifest.webmanifest`, o `sw.js` e os ícones, que são o que transforma o guia em app instalável. Eles são um acréscimo, não uma dependência: o `index.html` sozinho continua funcionando exatamente como antes, e é isso que você baixa quando prefere o arquivo avulso.
 
 O arquivo cresceu de 76 KB para 737 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
 
