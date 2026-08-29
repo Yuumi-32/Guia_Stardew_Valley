@@ -103,6 +103,14 @@ Nas marcações do próprio navegador (`localStorage`), no aparelho onde você a
 - o progresso do celular e o do computador são separados;
 - limpar os dados do site apaga tudo — o botão **Zerar tudo** faz o mesmo, mas avisa antes quantas marcações vai apagar.
 
+### Cópia do progresso
+
+Embaixo da barra tem **Salvar cópia do progresso**, que baixa um arquivo `.json`, e **Restaurar de um arquivo**, que traz de volta. É como se leva o progresso do celular para o computador, e é a única forma de ter uma cópia — o resto mora só no aparelho.
+
+Restaurar substitui o que está ali, então o guia diz de quando é a cópia e quantas marcações tem antes de fazer qualquer coisa. Arquivo que não é uma cópia do guia é recusado sem mexer em nada.
+
+Marcação de uma versão bem antiga do guia, cuja tarefa não existe mais, fica de fora — e o guia avisa quantas ficaram.
+
 ## O que tem dentro
 
 | | |
@@ -144,9 +152,9 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 - [x] Plantações: culturas, coleta e peixes de cada estação
 - [x] Navegar de um dia para o outro sem voltar ao calendário
 - [x] Conferir os 24 peixes que estavam incompletos — os 57 têm hora, clima, preço, dificuldade e tamanho
+- [x] Exportar e importar o progresso, para levar do celular pro computador
 - [ ] **Virar PWA** — um `manifest.json` e um service worker já dão ícone na tela inicial e offline de verdade, sem precisar reescrever nada
 - [ ] **Empacotar como APK** para publicar na Play Store
-- [ ] Exportar e importar o progresso, para levar do celular pro computador
 - [ ] Ilha Gengibre e o que vem depois do Ano 3
 
 ## Tecnologia
@@ -182,6 +190,9 @@ Se for mexer no arquivo, tudo está no `<script>` do fim do `index.html`:
 | `RETRATOS`, `PRESENTES`, `CIMG`, `CALENDARIOS` | as imagens em base64 |
 
 Anos 2 e 3 usam a função `mkEstacao()`, que preenche com a rotina padrão os dias sem evento.
+
+> [!IMPORTANT]
+> A chave de cada marcação sai do **texto do item**, não da posição dele na lista. Na prática: acrescentar, tirar ou reordenar tarefas é de graça — ninguém perde o que já tinha marcado. Mas **reescrever o texto de uma tarefa apaga a marcação dela** em quem já usa o guia, porque vira outro item. Para corrigir só um erro de digitação, vale pesar se compensa.
 
 ## Créditos
 
