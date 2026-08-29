@@ -44,12 +44,18 @@ h1{font-size:26px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var
 .tab small{display:block;font-weight:400;font-size:13px;opacity:.8;margin-top:1px}
 
 .bar{background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:10px 13px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.track{flex:1;height:9px;background:#100e0b;border-radius:99px;overflow:hidden;
+  padding:10px 13px;display:flex;flex-wrap:wrap;align-items:center;gap:9px 12px;margin-bottom:16px}
+.track{flex:1 1 150px;height:9px;background:#100e0b;border-radius:99px;overflow:hidden;
   box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
 .fill{height:100%;background:linear-gradient(90deg,var(--accent-line),var(--accent));width:0%;transition:width .25s}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;min-width:170px;
   text-align:right;color:var(--key)}
+/* em tela estreita a barra desce para a linha de baixo, inteira */
+@media (max-width:560px){
+  .pct{order:1;flex:1 1 auto;min-width:0;text-align:left}
+  button.reset{order:2}
+  .track{order:3;flex:1 1 100%}
+}
 button.reset{background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--muted);
   font-family:inherit;font-size:14px;padding:4px 11px;cursor:pointer;transition:.14s}
 button.reset:hover{background:var(--card-2);color:var(--fest);border-color:var(--fest-line)}
@@ -822,7 +828,7 @@ function mkEstacao(nome,hint,intro,plant,rotina,especiais,bundles){
 }
 
 const ANO2={
-primavera:mkEstacao('PRIMAVERA','Infraestrutura',
+primavera:mkEstacao('Primavera','Infraestrutura',
  '<b>Objetivo do mês:</b> montar a máquina. Aspersores no lugar do regador, barris e jarras de conserva rodando, estufa cheia de cultura que rebrota. O Kent voltou e o Repolho Roxo finalmente está no Pierre.',
  'Com a estufa liberada, as janelas de plantio deixam de ser prisão: lá dentro nada morre na virada de estação. Ao ar livre valem os mesmos prazos do Ano 1:<ul>'+
  '<li><b>Couve-flor</b> até o dia 16 · <b>Vagem</b> até o 18 · <b>Batata</b> até o 22 · <b>Chirívia</b> até o 24</li>'+
@@ -876,7 +882,7 @@ primavera:mkEstacao('PRIMAVERA','Infraestrutura',
    items:['Chave da Caveira: andar 120 das Minas','Chave Enferrujada: 60 doações no Museu'],
    rw:'Cada uma vale 1 ponto na avaliação'}]),
 
-verao:mkEstacao('VERÃO','Dinheiro grande',
+verao:mkEstacao('Verão','Dinheiro grande',
  '<b>Objetivo do mês:</b> Mirtilo e Lúpulo em escala, e o barco do Willy consertado pra abrir a Ilha Gengibre. É o mês que decide se você bate os 500.000 ouros antes da avaliação.',
  'Mesmos prazos do Ano 1 ao ar livre:<ul>'+
  '<li><b>Mirtilo</b> até o dia 15 · <b>Melão</b> até o 16 · <b>Tomate</b> e <b>Lúpulo</b> até o 17</li>'+
@@ -933,7 +939,7 @@ verao:mkEstacao('VERÃO','Dinheiro grande',
           'Tilápia <span class="en">(Tilapia)</span>'],
    rw:'Master Angler vale 1 ponto — comece a caçar os que faltam'}]),
 
-outono:mkEstacao('OUTONO','Escala',
+outono:mkEstacao('Outono','Escala',
  '<b>Objetivo do mês:</b> Oxicoco e Abóbora em escala industrial, Feira com itens irídio e o Museu chegando perto do fim. Faltando um mês e meio pra avaliação, é hora de contar pontos.',
  'Mesmos prazos do Ano 1:<ul>'+
  '<li><b>Cereja de Joia Doce</b> até o dia 4 — vende por 3.000 ouros, plante várias</li>'+
@@ -981,7 +987,7 @@ outono:mkEstacao('OUTONO','Escala',
    items:['Encher a tigela do bicho todo dia','Fazer carinho todo dia','Chegar em ~5 corações'],
    rw:'É 1 ponto inteiro por um gesto de 2 segundos por dia'}]),
 
-inverno:mkEstacao('INVERNO','Contagem regressiva',
+inverno:mkEstacao('Inverno','Contagem regressiva',
  '<b>Objetivo do mês:</b> fechar o placar. Faltam 28 dias pra avaliação do vovô — abra a aba do Ano 3 e veja quais dos 21 pontos ainda dá pra pegar antes do dia 1.',
  '<b>Nada cresce ao ar livre.</b> Mas a estufa e a Ilha Gengibre produzem normalmente o inverno inteiro. Ao ar livre só:<ul>'+
  '<li><b>Melão-Poeiro</b> <span class="en">(Powdermelon)</span> — 7 dias</li>'+
@@ -1032,7 +1038,7 @@ inverno:mkEstacao('INVERNO','Contagem regressiva',
 };
 
 const ANO3={
-primavera:mkEstacao('PRIMAVERA','A avaliação',
+primavera:mkEstacao('Primavera','A avaliação',
  '<b>Dia 1:</b> o vovô aparece no santuário, no canto noroeste da fazenda. Vá lá e converse com ele. Com 12 pontos ou mais você leva a Estátua da Perfeição, que solta 2 a 8 Minérios de Irídio por dia.',
  'Sem prazo apertado: a estufa e a Ilha Gengibre resolvem o que a estação não deixa plantar. Ao ar livre valem os mesmos limites do Ano 1.<br><br>'+
  'A partir daqui o jogo vira coleção: <b>Museu completo</b>, <b>todos os peixes</b> e <b>todos os itens enviados</b> são os três pontos mais difíceis do placar.',
@@ -1066,7 +1072,7 @@ primavera:mkEstacao('PRIMAVERA','A avaliação',
    items:['95 itens doados no Museu','Todos os minerais','Todos os artefatos'],
    rw:'Geodos e pontos de artefato são o caminho'}]),
 
-verao:mkEstacao('VERÃO','Coleção',
+verao:mkEstacao('Verão','Coleção',
  '<b>Objetivo do mês:</b> os três pontos de conquista — Museu completo, todos os peixes e todos os itens enviados. São os que mais demoram e os que sobram quando o resto já está fechado.',
  'Verão é a única estação de vários peixes (Baiacu, Atum, Esturjão) e da Concha do Arco-Íris na praia. Se falta item de verão no envio, é agora.',
  ['Enviar itens novos','Pescar o que falta na lista','Ilha Gengibre e vulcão','Amizade e Museu'],
@@ -1093,7 +1099,7 @@ verao:mkEstacao('VERÃO','Coleção',
           'Todos os coletáveis e minerais'],
    rw:'A tela de coleção mostra o que ainda falta'}]),
 
-outono:mkEstacao('OUTONO','Dinheiro e níveis',
+outono:mkEstacao('Outono','Dinheiro e níveis',
  '<b>Objetivo do mês:</b> se o placar ainda não fechou, este é o mês de dinheiro — vinho envelhecido em barril de carvalho e Cereja de Joia Doce empurram o ouro acumulado até o milhão, que sozinho vale 2 pontos.',
  'Cereja de Joia Doce até o dia 4 · Abóbora até o 15 · Oxicoco até o 21. Vinho de qualquer fruta em barril de carvalho por 2 estações multiplica o valor.',
  ['Colher e transformar em vinho e conserva','Enviar itens novos','Amizade e Museu','Ilha Gengibre'],
@@ -1119,7 +1125,7 @@ outono:mkEstacao('OUTONO','Dinheiro e níveis',
    items:['30 níveis somados','50 níveis somados (nível 10 em todas as 5)'],
    rw:'Cultivo, Mineração, Coleta, Pesca e Combate'}]),
 
-inverno:mkEstacao('INVERNO','Fechamento',
+inverno:mkEstacao('Inverno','Fechamento',
  '<b>Objetivo do mês:</b> fechar o que sobrou. Sem plantio ao ar livre, o inverno inteiro é Caverna da Caveira, Museu, pesca e amizade — exatamente os pontos que costumam ficar por último.',
  '<b>Nada cresce ao ar livre</b>, mas estufa e Ilha Gengibre produzem normal. Aproveite os dias vazios pra caçar peixes de inverno e artefatos arando a terra.',
  ['Caverna da Caveira atrás de irídio','Pescar o que falta','Museu e envio de itens novos','Amizade'],
