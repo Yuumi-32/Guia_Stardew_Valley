@@ -1469,6 +1469,10 @@ const SEA_TXT={
  outono:'<b>Outono.</b> Oxicoco é a renda, Abóbora ganha a Feira do dia 16. Nada atravessa para o Inverno: no dia 28 colha tudo. A Cereja de Joia Doce precisa entrar na terra até o dia 4.',
  inverno:'<b>Inverno.</b> Nada de verdade cresce ao ar livre além do Melão-Poeiro. A estufa e a Ilha Gengibre produzem normal. Os coletáveis Raiz de Inverno e Inhame da Neve só saem arando a terra.'
 };
+const SEA_NOME={primavera:'Primavera',verao:'Verão',outono:'Outono',inverno:'Inverno'};
+const SEA_ART ={primavera:'da',      verao:'do',   outono:'do',    inverno:'do'};
+function seaNome(c){return SEA_NOME[c.sea]||SEA_NOME[seaCult]}
+function seaArt(c){return SEA_ART[c.sea]||SEA_ART[seaCult]}
 function renderSeaSel(){
   const el=$('seaSel'); el.innerHTML='';
   [['primavera','Primavera'],['verao','Verão'],['outono','Outono'],['inverno','Inverno']].forEach(function(s){
@@ -1575,7 +1579,7 @@ function renderFichaCultivo(){
     const pc=[c.venda,Math.floor(c.venda*1.25),Math.floor(c.venda*1.5),c.venda*2];
     let hc='<div class="topo">'+(CIMG['col_'+c.arq]?'<img src="'+CIMG['col_'+c.arq]+'" alt="">':'')+
       '<div style="flex:1;min-width:180px"><h3>'+c.n+'</h3>'+
-      '<p class="sub2">'+c.en+' · coleta de Primavera</p></div></div>'+
+      '<p class="sub2">'+c.en+' · coleta de '+seaNome(c)+'</p></div></div>'+
       '<table class="info"><tr><th colspan="2">Informações</th></tr>'+
       '<tr><td>Onde encontrar</td><td>'+c.onde+'</td></tr>'+
       (c.conjunto?'<tr><td>Conjunto</td><td>Conjunto '+c.conjunto+'</td></tr>':'')+
@@ -1590,7 +1594,7 @@ function renderFichaCultivo(){
   }
   const p=[c.venda,Math.floor(c.venda*1.25),Math.floor(c.venda*1.5),c.venda*2];
   let h='<div class="topo">'+imgCult(c)+'<div style="flex:1;min-width:180px">'+
-    '<h3>'+c.n+'</h3><p class="sub2">'+c.en+' · Primavera</p></div></div>';
+    '<h3>'+c.n+'</h3><p class="sub2">'+c.en+' · '+seaNome(c)+'</p></div></div>';
 
   if(c.est&&c.est.length){
     h+='<div class="estagios">';
@@ -1614,7 +1618,7 @@ function renderFichaCultivo(){
         ? c.colheitasIrrigado+' irrigado · '+c.colheitas+' sem irrigação'
         : String(c.colheitas));
   h+=li('Ouro por dia', c.ouroDia);
-  h+=li('Último dia para plantar', 'dia '+c.ultimo+' da Primavera');
+  h+=li('Último dia para plantar', 'dia '+c.ultimo+' '+seaArt(c)+' '+seaNome(c));
   h+=li('Conjunto', c.conjunto?'Conjunto '+c.conjunto:'');
   if(!c.semPreco) h+='<tr><td>Preço de venda</td><td><div class="precos">'+
      '<span class="pq base"><span>base</span><b>'+p[0]+'</b></span>'+
