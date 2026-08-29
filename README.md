@@ -197,6 +197,12 @@ Anos 2 e 3 usam a função `mkEstacao()`, que preenche com a rotina padrão os d
 > [!IMPORTANT]
 > A chave de cada marcação sai do **texto do item**, não da posição dele na lista. Na prática: acrescentar, tirar ou reordenar tarefas é de graça — ninguém perde o que já tinha marcado. Mas **reescrever o texto de uma tarefa apaga a marcação dela** em quem já usa o guia, porque vira outro item. Para corrigir só um erro de digitação, vale pesar se compensa.
 
+## Licença
+
+O código, o texto do roteiro e a documentação estão sob [MIT](LICENSE) — pode forkar, adaptar e redistribuir à vontade.
+
+As 555 imagens embutidas no `index.html` e as capturas em `docs/imagens/` vêm do jogo e continuam sendo da ConcernedApe. Elas **não** estão cobertas pela MIT. O [`NOTICE.md`](NOTICE.md) diz exatamente o que é de quem.
+
 ## Créditos
 
 Stardew Valley é um jogo do [ConcernedApe](https://www.stardewvalley.net/). Este guia é um projeto de fã, sem vínculo com o criador, e não substitui o jogo — só ajuda a não perder o prazo do repolho roxo de novo.
