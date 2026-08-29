@@ -1878,23 +1878,52 @@ function recado(txt,erro){
   el.textContent=txt;
   el.className='recado'+(erro?' erro':'');
 }
-function marcadas(obj){return Object.keys(obj).filter(function(k){return obj[k]}).length}
+/* Uma conta só para todo mundo. Antes cada lugar contava de um jeito: a barra
+   somava tarefas e conjuntos (1352) enquanto o Zerar tudo e a exportação
+   varriam o state cru, que ainda tem os 19 itens do placar do vovô — e também
+   chave velha de tarefa cujo texto mudou, que não aparece em lugar nenhum da
+   tela. Marcando tudo, a barra dizia 1352 e o Zerar tudo oferecia apagar 1371.
+   Agora a contagem sai dos dados, separando as duas listas, que são coisas
+   diferentes: o guia tem barra de progresso, o placar tem as velas. */
+function contarMarcadas(){
+  let guia=0, placar=0;
+  YORDER.forEach(function(y){ ORDER.forEach(function(s){
+    const e=ANOS[y].est[s];
+    e.days.forEach(function(d){ d.tasks.forEach(function(_,i){ if(state[d.ids[i]]) guia++ }) });
+    e.bundles.forEach(function(b){ b.items.forEach(function(_,i){ if(state[b.ids[i]]) guia++ }) });
+  })});
+  PLACAR.forEach(function(g){ g.items.forEach(function(_,i){ if(state[g.ids[i]]) placar++ }) });
+  return {guia:guia, placar:placar, total:guia+placar};
+}
+/* "3 marcações do guia e 2 itens do placar do vovô", pulando a lista que está zerada */
+function fraseDasContas(c){
+  const partes=[];
+  if(c.guia) partes.push(c.guia+(c.guia===1?' marcação do guia':' marcações do guia'));
+  if(c.placar) partes.push(c.placar+(c.placar===1?' item do placar do vovô':' itens do placar do vovô'));
+  return partes.join(' e ');
+}
+/* só o que este guia ainda reconhece — chave velha não entra na cópia */
+function marcacoesValidas(){
+  const saida={};
+  Object.keys(state).forEach(function(k){ if(state[k] && CHAVES_VALIDAS[k]) saida[k]=true });
+  return saida;
+}
 
 $('exportar').onclick=function(){
-  const n=marcadas(state);
+  const c=contarMarcadas(), n=c.total;
   if(!n){recado('Não há nada marcado para salvar ainda.',1);return}
   const hoje=new Date();
   const dia=hoje.getFullYear()+'-'+
             String(hoje.getMonth()+1).padStart(2,'0')+'-'+
             String(hoje.getDate()).padStart(2,'0');
-  const pacote={app:APP, versao:2, salvoEm:hoje.toISOString(), marcacoes:state};
+  const pacote={app:APP, versao:2, salvoEm:hoje.toISOString(), marcacoes:marcacoesValidas()};
   const blob=new Blob([JSON.stringify(pacote,null,1)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url; a.download='guia-stardew-progresso-'+dia+'.json';
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(function(){URL.revokeObjectURL(url)},1000);
-  recado(n+(n===1?' marcação salva':' marcações salvas')+' em guia-stardew-progresso-'+dia+'.json');
+  recado(fraseDasContas(c)+' em guia-stardew-progresso-'+dia+'.json');
 };
 
 $('importar').onclick=function(){$('arquivoProgresso').click()};
@@ -1922,7 +1951,7 @@ $('arquivoProgresso').onchange=function(e){
       nVindas++;
       if(CHAVES_VALIDAS[k]) vindas[k]=true;
     });
-    const conhecidas=Object.keys(vindas).length, nAqui=marcadas(state);
+    const conhecidas=Object.keys(vindas).length, nAqui=contarMarcadas().total;
     if(!conhecidas){
       recado('A cópia tem '+nVindas+' marcações, mas nenhuma bate com este guia. '+
              'Deve ser de uma versão bem diferente — não mexi em nada.',1);
@@ -1943,9 +1972,9 @@ $('arquivoProgresso').onchange=function(e){
 };
 
 $('reset').onclick=()=>{
-  const marcados=Object.keys(state).filter(k=>state[k]).length;
-  if(!marcados) return;
-  if(!confirm('Isto apaga as '+marcados+' marcações dos três anos, neste aparelho. '+
+  const c=contarMarcadas();
+  if(!c.total) return;
+  if(!confirm('Isto apaga '+fraseDasContas(c)+', neste aparelho. '+
               'Não dá para desfazer.\n\nZerar mesmo?')) return;
   state={};save();renderAll();
 };
