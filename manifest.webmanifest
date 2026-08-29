@@ -1,0 +1,20 @@
+{
+  "name": "Guia Stardew Valley — Anos 1, 2 e 3",
+  "short_name": "Guia Stardew",
+  "description": "Guia de Stardew Valley em português, dia a dia: os 336 dias dos Anos 1, 2 e 3, os 45 aldeões e as plantações de cada estação.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#15120e",
+  "theme_color": "#15120e",
+  "categories": ["games", "education", "books"],
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
