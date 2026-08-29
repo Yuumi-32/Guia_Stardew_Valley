@@ -51,6 +51,8 @@ Clique num aldeão e sai a ficha: aniversário, onde mora, família, se dá para
 
 Plantio, coleta e peixes de cada estação. Cada planta mostra os **estágios de crescimento** um por um, quanto tempo leva, se rebrota, quanto rende por dia, o **último dia útil para plantar** e o preço nas quatro qualidades.
 
+Os **57 peixes** trazem onde pescar, a hora, o clima que exigem, a dificuldade com o tipo de fisgada e o tamanho — inclusive os quatro lendários de estação, com o nível de Pesca que cada um cobra.
+
 <img src="docs/imagens/05-plantacoes.png" alt="Aba Plantações na primavera, com a grade de culturas e a ficha do Morango: estágios de crescimento, semente, rebrota e preços" width="880">
 
 <details>
@@ -112,7 +114,7 @@ Nas marcações do próprio navegador (`localStorage`), no aparelho onde você a
 | 🔑 **51 marcos** | Minas abrindo, Kent voltando, ônibus consertado… |
 | 🕯️ **21 pontos do vovô** | o placar da avaliação, com as 4 velas |
 | 👥 **45 aldeões** | 34 com aniversário, presentes e horário · 12 casáveis |
-| 🌾 **128 itens de estação** | 45 culturas, 26 coletáveis e 57 peixes |
+| 🌾 **128 itens de estação** | 45 culturas, 26 coletáveis e 57 peixes, todos com ficha completa |
 | 🖼️ **555 imagens embutidas** | retratos, ícones de presente, estágios de cultivo e os 4 calendários |
 
 ## Como ler o calendário
@@ -141,7 +143,7 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 - [x] Aldeões: retratos, presentes, família e horários
 - [x] Plantações: culturas, coleta e peixes de cada estação
 - [x] Navegar de um dia para o outro sem voltar ao calendário
-- [ ] **Conferir os 24 peixes que ainda estão incompletos** — hoje aparecem só com a área onde saem, e a ficha avisa isso
+- [x] Conferir os 24 peixes que estavam incompletos — os 57 têm hora, clima, preço, dificuldade e tamanho
 - [ ] **Virar PWA** — um `manifest.json` e um service worker já dão ícone na tela inicial e offline de verdade, sem precisar reescrever nada
 - [ ] **Empacotar como APK** para publicar na Play Store
 - [ ] Exportar e importar o progresso, para levar do celular pro computador
@@ -161,11 +163,13 @@ Baseado na **versão 1.6** do jogo. Datas de festivais, aniversários, itens de 
 
 A **ordem dia a dia é estratégia**, não regra do jogo — dá para jogar de outro jeito e chegar no mesmo lugar.
 
-E tem coisa que eu não consegui confirmar 100%: **24 dos 57 peixes** ainda estão sem hora, clima, preço e dificuldade — nesses eu deixei em branco em vez de chutar, e a ficha avisa. Também ficaram em aberto a penalidade exata de ouro ao desmaiar às 2h e a tradução oficial de alguns nomes de lugar. Está tudo anotado no fim da página do guia.
+Os **57 peixes** estão completos: hora, clima, preço, dificuldade e tamanho de cada um saem da tabela da wiki. O tamanho aparece em centímetros; a wiki dá em polegadas.
+
+O que continua em aberto: a penalidade exata de ouro ao desmaiar às 2h e a tradução oficial de alguns nomes de lugar. Está anotado no fim da página do guia.
 
 ## Contribuindo
 
-Achou um erro de data, um item faltando num conjunto ou uma tradução errada? [Abra uma issue](https://github.com/Yuumi-32/Guia_Stardew_Valley/issues) — de preferência com o link da wiki que comprova. Correção de conteúdo vale mais que código aqui. Os 24 peixes incompletos são o lugar mais fácil de ajudar.
+Achou um erro de data, um item faltando num conjunto ou uma tradução errada? [Abra uma issue](https://github.com/Yuumi-32/Guia_Stardew_Valley/issues) — de preferência com o link da wiki que comprova. Correção de conteúdo vale mais que código aqui.
 
 Se for mexer no arquivo, tudo está no `<script>` do fim do `index.html`:
 
