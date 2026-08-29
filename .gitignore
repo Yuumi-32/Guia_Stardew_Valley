@@ -5,8 +5,7 @@ Desktop.ini
 .DS_Store
 ._*
 
-# configuração de ferramenta, que é de cada máquina
-.claude/
+# configuração de editor, que é de cada máquina
 .vscode/
 .idea/
 
