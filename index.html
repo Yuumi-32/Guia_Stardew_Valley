@@ -343,6 +343,13 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
 .estsel img{width:20px;height:20px;object-fit:contain;image-rendering:pixelated}
 .aviso{margin-top:12px;padding:9px 12px;background:#231b12;border-left:3px solid var(--key);
   border-radius:0 7px 7px 0;font-size:14.5px;color:#c9b48f}
+
+/* o navegador nao esta guardando o progresso — fica escondido quando esta tudo bem */
+.semsalvar{background:var(--fest-soft);border:1px solid var(--fest-line);
+  border-left:3px solid var(--fest);border-radius:10px;padding:11px 14px;
+  margin-bottom:14px;font-size:15px;line-height:1.45;color:var(--ink)}
+.semsalvar b{color:var(--fest)}
+.semsalvar[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -350,6 +357,12 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
 
   <h1>Stardew Valley — Anos 1, 2 e 3</h1>
   <p class="sub">Do Centro Comunitário até as 4 velas do vovô · versão 1.6 · toda estação começa numa segunda-feira</p>
+
+  <div class="semsalvar" id="semsalvar" role="alert" hidden>
+    <b>Este navegador não está guardando seu progresso.</b>
+    O que você marcar aqui some quando a página fechar. Antes de sair, use
+    <b>Salvar cópia do progresso</b> — e <b>Restaurar de um arquivo</b> quando voltar.
+  </div>
 
   <div class="viewnav" id="viewnav">
     <button class="vbtn on" data-v="guia">Guia dos anos</button>
@@ -466,9 +479,14 @@ function armazemFunciona(){
     return voltou;
   }catch(e){return false}
 }
+function avisarSemArmazem(){
+  semArmazem=true;
+  const el=document.getElementById('semsalvar');
+  if(el) el.hidden=false;
+}
 const save=()=>{
   try{localStorage.setItem(KEY,JSON.stringify(state));return true}
-  catch(e){semArmazem=true;return false}
+  catch(e){avisarSemArmazem();return false}
 };
 /* o progresso é lido lá embaixo, em carregarProgresso(), porque as chaves
    dependem dos dados dos três anos, que só existem depois daqui */
@@ -1239,7 +1257,7 @@ const pref={
       return (validos && validos.indexOf(v)<0) ? padrao : v;
     }catch(e){return padrao}
   },
-  gravar:function(k,v){try{localStorage.setItem('sdv-'+k,v)}catch(e){semArmazem=true}}
+  gravar:function(k,v){try{localStorage.setItem('sdv-'+k,v)}catch(e){avisarSemArmazem()}}
 };
 let ano=pref.ler('ano','a1',['a1','a2','a3']);
 let cur=pref.ler('estacao','primavera',['primavera','verao','outono','inverno']);
@@ -1848,6 +1866,7 @@ document.addEventListener('keydown', function(e){
 
 prepararChaves();
 carregarProgresso();
+if(!armazemFunciona()) avisarSemArmazem();
 
 /* ---------- cópia do progresso ----------
    O progresso mora no localStorage, que é de um aparelho só e some se você
