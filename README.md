@@ -184,6 +184,11 @@ npx @bubblewrap/cli@1.25.0 update --skipVersionUpgrade && npx @bubblewrap/cli@1.
 
 Precisa de JDK 17+ e do Android SDK. No CI, o workflow **APK** faz o mesmo — rode pelo botão *Run workflow*, ou publique uma tag `v*` para o APK e o AAB saírem anexados à Release.
 
+> [!NOTE]
+> Construindo na sua máquina com o SDK do Android Studio, o Bubblewrap para com *"The provided androidSdk isn't correct"*. Não é o SDK que está errado: ele exige uma pasta `tools` ou `bin` na raiz do SDK, que o layout do Android Studio não tem. Dá para contornar apontando o `androidSdkPath` do `~/.bubblewrap/config.json` para uma pasta espelho — um diretório com um `bin` vazio e junções para o `build-tools`, `platforms` e `platform-tools` do SDK de verdade. No CI o problema não existe, porque a action instala o SDK no layout que ele espera.
+>
+> Outro detalhe: o campo da versão no `twa-manifest.json` chama-se **`appVersion`**, e não `appVersionName` como o Bubblewrap escreve ao gerar o arquivo. Com o nome errado o APK sai com `versionName` vazio, sem nenhum aviso.
+
 ### Duas coisas que faltam para publicar
 
 **A chave de assinatura.** Ela decide a identidade do app na Play Store para sempre, e perdê-la significa nunca mais atualizar o app. Tem que ser sua, criada por você e guardada fora daqui:
