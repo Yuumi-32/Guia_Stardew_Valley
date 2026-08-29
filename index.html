@@ -2,8 +2,17 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Stardew Valley — Anos 1, 2 e 3</title>
+<meta name="description" content="Guia de Stardew Valley em português, dia a dia: os 336 dias dos Anos 1, 2 e 3, os 45 aldeões com presentes e horários, e as plantações de cada estação. Um arquivo só, funciona offline.">
+<meta name="author" content="Yuumi-32">
+<meta name="theme-color" content="#15120e">
+<meta name="color-scheme" content="dark">
+<!-- deixa o guia abrir em tela cheia quando fica salvo na tela inicial -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Guia Stardew">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,6 +34,13 @@ body{margin:0;background:var(--bg);color:var(--ink);
   font-family:'Eczar',Georgia,'Times New Roman',serif;
   font-size:16px;line-height:1.5;padding:20px 16px 48px;
   -webkit-font-smoothing:antialiased}
+/* salvo na tela inicial o guia ocupa a tela toda, inclusive embaixo do relógio */
+@supports (padding:env(safe-area-inset-top)){
+  body{padding-top:max(20px,env(safe-area-inset-top));
+       padding-left:max(16px,env(safe-area-inset-left));
+       padding-right:max(16px,env(safe-area-inset-right));
+       padding-bottom:calc(48px + env(safe-area-inset-bottom))}
+}
 .wrap{max-width:860px;margin:0 auto}
 h1{font-size:26px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var(--key)}
 .sub{color:var(--muted);font-size:15px;margin:0 0 16px}
