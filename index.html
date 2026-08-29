@@ -79,6 +79,11 @@ h1{font-size:26px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var
   button.reset{order:2}
   .track{order:3;flex:1 1 100%}
 }
+/* em tela estreita o título quebrava em duas linhas e empurrava tudo para baixo */
+@media (max-width:420px){
+  h1{font-size:22px}
+  .sub{font-size:14px}
+}
 button.reset{background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--muted);
   font-family:inherit;font-size:14px;padding:4px 11px;cursor:pointer;transition:.14s}
 button.reset:hover{background:var(--card-2);color:var(--fest);border-color:var(--fest-line)}
@@ -234,6 +239,10 @@ body.aldeoes #viewAldeoes{display:block}
 .ini.Inverno {color:var(--key);background:var(--key-soft);border-color:var(--key-line)}
 #avisoImg{margin-bottom:14px}
 body.simples #avisoImg{display:none}
+/* recolhido, o aviso ocupa uma linha em vez de um quarto da tela do celular */
+details.hint>summary{cursor:pointer;color:var(--key);font-weight:600}
+details.hint>summary:hover{color:var(--ink)}
+details.hint>p{margin:9px 0 0}
 
 /* ---------- calendário oficial ---------- */
 
@@ -424,12 +433,12 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
   </div><!-- /viewGuia -->
 
   <div id="viewAldeoes">
-    <div class="hint" id="avisoImg">
-      <b>Retratos embutidos:</b> as 45 imagens estão dentro deste arquivo,
-      então funcionam offline e não dependem da wiki. Os aldeões presenteáveis mostram aniversário,
-      endereço, família e melhores presentes; os de "Outros NPCs" aparecem só como referência visual,
-      porque não recebem presentes nem têm aniversário no jogo.
-    </div>
+    <details class="hint" id="avisoImg">
+      <summary>Os 45 retratos estão dentro deste arquivo e funcionam offline</summary>
+      <p>Não dependem da wiki. Os aldeões presenteáveis mostram aniversário, endereço,
+      família e melhores presentes; os de "Outros NPCs" aparecem só como referência
+      visual, porque não recebem presentes nem têm aniversário no jogo.</p>
+    </details>
     <input class="busca" id="buscaNpc" type="search" aria-label="Buscar aldeão pelo nome"
            placeholder="Buscar aldeão pelo nome...">
     <div class="filtros" id="filtros"></div>
