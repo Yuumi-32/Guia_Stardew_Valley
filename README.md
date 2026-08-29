@@ -162,11 +162,13 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 
 ## Tecnologia
 
-Um arquivo HTML de ~675 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
+Um arquivo HTML de ~737 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
 
-O arquivo cresceu de 76 KB para 675 KB porque as 555 imagens estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
+O arquivo cresceu de 76 KB para 737 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
 
-A única coisa que vem de fora é a fonte [Eczar](https://fonts.google.com/specimen/Eczar), do Google Fonts. Sem internet ele cai numa fonte serifada do sistema e continua funcionando normalmente.
+**Nada vem de fora.** A fonte [Eczar](https://fonts.google.com/specimen/Eczar) também está embutida — o subset latin do arquivo variável, que cobre os pesos 400 a 800 em 26 KB. Abrir o guia não dispara nenhuma requisição de rede, então ele tem a mesma cara com ou sem sinal.
+
+Seta, `✓` e `≈` ficam fora do subset latin e usam a fonte do sistema, como já acontecia quando a Eczar vinha do Google.
 
 ## Sobre a precisão
 

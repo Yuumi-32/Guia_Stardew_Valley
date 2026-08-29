@@ -22,3 +22,12 @@ do jogo continua sendo da ConcernedApe, e a responsabilidade por como você a
 usa é sua.
 
 Se a ConcernedApe pedir a remoção de qualquer coisa daqui, eu removo.
+
+## A fonte
+
+O `index.html` também embute a fonte **Eczar**, em base64.
+
+Copyright 2014 The Eczar Project Authors (<https://github.com/rosettatype/eczar>),
+licenciada sob a [SIL Open Font License, versão 1.1](https://openfontlicense.org/).
+A OFL permite embutir e redistribuir a fonte, inclusive num projeto comercial; o
+que ela não permite é vender a fonte sozinha.
