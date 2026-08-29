@@ -1,0 +1,15 @@
+# lixo que o sistema operacional deixa nas pastas
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+._*
+
+# configuração de ferramenta, que é de cada máquina
+.claude/
+.vscode/
+.idea/
+
+# rascunhos e cópias de progresso que não devem virar commit
+*.bak
+guia-stardew-progresso-*.json
