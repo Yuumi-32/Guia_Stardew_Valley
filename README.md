@@ -168,8 +168,38 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 - [x] Conferir os 24 peixes que estavam incompletos — os 57 têm hora, clima, preço, dificuldade e tamanho
 - [x] Exportar e importar o progresso, para levar do celular pro computador
 - [x] **Virar PWA** — instala na tela inicial com ícone próprio, abre em tela cheia e funciona sem rede, pelo service worker
-- [ ] **Empacotar como APK** para publicar na Play Store
+- [x] **Empacotar como APK** — o build sai do PWA por TWA, com o `twa-manifest.json` versionado e o workflow `APK`
+- [ ] Publicar na Play Store — falta a chave de release e o `assetlinks.json` num domínio próprio
 - [ ] Ilha Gengibre e o que vem depois do Ano 3
+
+## O APK
+
+O app Android não é um segundo projeto: é o próprio PWA embrulhado numa [TWA](https://developer.chrome.com/docs/android/trusted-web-activity), que abre o site em tela cheia usando o motor do Chrome. Corrigir o guia corrige o app, sem recompilar nada.
+
+O `twa-manifest.json` guarda a configuração do build. Para gerar localmente:
+
+```bash
+npx @bubblewrap/cli@1.25.0 update --skipVersionUpgrade && npx @bubblewrap/cli@1.25.0 build
+```
+
+Precisa de JDK 17+ e do Android SDK. No CI, o workflow **APK** faz o mesmo — rode pelo botão *Run workflow*, ou publique uma tag `v*` para o APK e o AAB saírem anexados à Release.
+
+### Duas coisas que faltam para publicar
+
+**A chave de assinatura.** Ela decide a identidade do app na Play Store para sempre, e perdê-la significa nunca mais atualizar o app. Tem que ser sua, criada por você e guardada fora daqui:
+
+```bash
+keytool -genkeypair -v -keystore chave-release.keystore -alias guia-stardew -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Depois cadastre `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD` e `KEY_PASSWORD` nos secrets do repositório. O `.gitignore` já barra `*.keystore` — nunca comite a chave.
+
+**O `assetlinks.json`.** É o arquivo que prova que o app e o site são da mesma pessoa; sem ele o app abre com a barra de endereço do navegador aparecendo em cima, em vez de tela cheia. O detalhe é que ele precisa ficar na **raiz do domínio**, em `https://yuumi-32.github.io/.well-known/assetlinks.json`, e não dentro deste repositório — subcaminho não vale. Para servi-lo é preciso um repositório chamado `Yuumi-32.github.io`, ou um domínio próprio.
+
+O conteúdo sai pronto de `bubblewrap fingerprint generateAssetLinks`, depois que a chave de release existir.
+
+> [!WARNING]
+> O guia usa arte do jogo. Publicar app de fã com material de terceiros numa loja é um risco diferente de manter uma página no GitHub — a Play Store atende pedido de remoção por marca. Vale decidir isso de olhos abertos; veja o [`NOTICE.md`](NOTICE.md).
 
 ## Tecnologia
 
