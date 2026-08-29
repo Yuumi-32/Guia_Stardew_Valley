@@ -93,7 +93,7 @@ Depois é só abrir o `index.html` no navegador.
 3. Pronto. Depois disso não precisa mais de internet: o guia inteiro está naquele arquivo.
 
 > [!TIP]
-> Quer um link para abrir de qualquer lugar? Ligue o **GitHub Pages** em *Settings → Pages → Branch: `main` / `root`*. Em um minuto o guia fica no ar em `https://yuumi-32.github.io/Guia_Stardew_Valley/`, e aí dá para usar *Adicionar à tela inicial* no navegador do celular — o guia abre em tela cheia, sem a barra do navegador.
+> Não quer baixar nada? O guia está no ar em **<https://yuumi-32.github.io/Guia_Stardew_Valley/>**. Abrindo esse link no celular e usando *Adicionar à tela inicial*, ele ganha ícone e abre em tela cheia, sem a barra do navegador.
 
 ### Onde o progresso fica salvo
 
