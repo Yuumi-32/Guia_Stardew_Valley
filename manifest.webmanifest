@@ -12,6 +12,18 @@
   "background_color": "#15120e",
   "theme_color": "#15120e",
   "categories": ["games", "education", "books"],
+  "screenshots": [
+    { "src": "capturas/celular-1-guia.png", "sizes": "1170x2532", "type": "image/png",
+      "form_factor": "narrow", "label": "O calendário da primavera do Ano 1, com o dia 13 aberto" },
+    { "src": "capturas/celular-2-aldeoes.png", "sizes": "1170x2532", "type": "image/png",
+      "form_factor": "narrow", "label": "Os 45 aldeões, com busca e filtro por estação de aniversário" },
+    { "src": "capturas/celular-3-plantacoes.png", "sizes": "1170x2532", "type": "image/png",
+      "form_factor": "narrow", "label": "As plantações da primavera, com tempo de crescimento e preço" },
+    { "src": "capturas/tela-1-guia.png", "sizes": "1920x1080", "type": "image/png",
+      "form_factor": "wide", "label": "O guia dia a dia, com o calendário do jogo e a ficha do dia" },
+    { "src": "capturas/tela-2-aldeoes.png", "sizes": "1920x1080", "type": "image/png",
+      "form_factor": "wide", "label": "A galeria dos aldeões em tela larga" }
+  ],
   "icons": [
     { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
