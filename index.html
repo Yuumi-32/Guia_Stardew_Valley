@@ -451,7 +451,25 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
 const KEY='sdv-tres-anos-v2';
 const KEY_ANTIGO='sdv-tres-anos-v1';
 let state={};
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+/* ---------- o navegador está mesmo guardando? ----------
+   Aba anônima, dados de site bloqueados ou o arquivo aberto por file:// podem
+   fazer o navegador recusar o localStorage. Isso passava batido: as tarefas
+   marcavam na tela, a barra enchia e tudo sumia ao fechar, sem nenhum sinal.
+   Agora toda gravação diz se deu certo e levanta a bandeira quando não deu. */
+let semArmazem=false;
+function armazemFunciona(){
+  try{
+    const t=KEY+'-teste';
+    localStorage.setItem(t,'1');
+    const voltou=localStorage.getItem(t)==='1';
+    localStorage.removeItem(t);
+    return voltou;
+  }catch(e){return false}
+}
+const save=()=>{
+  try{localStorage.setItem(KEY,JSON.stringify(state));return true}
+  catch(e){semArmazem=true;return false}
+};
 /* o progresso é lido lá embaixo, em carregarProgresso(), porque as chaves
    dependem dos dados dos três anos, que só existem depois daqui */
 
@@ -1221,7 +1239,7 @@ const pref={
       return (validos && validos.indexOf(v)<0) ? padrao : v;
     }catch(e){return padrao}
   },
-  gravar:function(k,v){try{localStorage.setItem('sdv-'+k,v)}catch(e){}}
+  gravar:function(k,v){try{localStorage.setItem('sdv-'+k,v)}catch(e){semArmazem=true}}
 };
 let ano=pref.ler('ano','a1',['a1','a2','a3']);
 let cur=pref.ler('estacao','primavera',['primavera','verao','outono','inverno']);
