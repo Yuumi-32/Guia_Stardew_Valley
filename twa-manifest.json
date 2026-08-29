@@ -1,0 +1,39 @@
+{
+  "packageId": "io.github.yuumi32.guiastardew",
+  "host": "yuumi-32.github.io",
+  "name": "Guia Stardew Valley — Anos 1, 2 e 3",
+  "launcherName": "Guia Stardew",
+  "display": "standalone",
+  "themeColor": "#15120e",
+  "themeColorDark": "#15120e",
+  "navigationColor": "#15120e",
+  "navigationColorDark": "#15120e",
+  "navigationDividerColor": "#15120e",
+  "navigationDividerColorDark": "#15120e",
+  "backgroundColor": "#15120e",
+  "enableNotifications": false,
+  "startUrl": "/Guia_Stardew_Valley/",
+  "iconUrl": "https://yuumi-32.github.io/Guia_Stardew_Valley/icones/icone-512.png",
+  "maskableIconUrl": "https://yuumi-32.github.io/Guia_Stardew_Valley/icones/icone-maskable-512.png",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://yuumi-32.github.io/Guia_Stardew_Valley/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://yuumi-32.github.io/Guia_Stardew_Valley/",
+  "minSdkVersion": 21,
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "orientation": "portrait",
+  "signingKey": {
+    "path": "./chave-release.keystore",
+    "alias": "guia-stardew"
+  },
+  "splashScreenFadeOutDuration": 300,
+  "appVersion": "1.0.0"
+}

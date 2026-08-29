@@ -12,3 +12,19 @@ Desktop.ini
 # rascunhos e cópias de progresso que não devem virar commit
 *.bak
 guia-stardew-progresso-*.json
+
+# build do APK — nada disso deve ser versionado
+*.keystore
+*.jks
+*.apk
+*.aab
+local.properties
+/app/
+/gradle/
+/gradlew
+/gradlew.bat
+/build.gradle
+/settings.gradle
+/gradle.properties
+/manifest-checksum.txt
+/store_icon.png
