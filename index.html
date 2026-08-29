@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stardew Valley — Anos 1, 2 e 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#15120e; --card:#221d17; --card-2:#2a241d;
+  --ink:#f2e8d5; --muted:#a3937a;
+  --line:#3a3128;
+  --accent:#84c254; --accent-soft:#25321b; --accent-line:#3f5c2a;
+  --fest:#e5866b; --fest-soft:#38201a; --fest-line:#5c3227;
+  --bday:#c398e4; --bday-soft:#2b2139; --bday-line:#4a3762;
+  --key:#6fb0e8; --key-soft:#15263a; --key-line:#2e5175;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Eczar',Georgia,'Times New Roman',serif;
+  font-size:16px;line-height:1.5;padding:20px 16px 48px;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:26px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var(--key)}
+.sub{color:var(--muted);font-size:15px;margin:0 0 16px}
+
+.years{display:flex;gap:7px;margin-bottom:9px}
+.year{flex:1;background:var(--card);border:1px solid var(--line);border-radius:9px;
+  padding:10px 6px;cursor:pointer;font-family:inherit;font-weight:700;font-size:17px;
+  color:var(--muted);transition:.14s;text-align:center}
+.year:hover{border-color:#544636;color:var(--ink)}
+.year.on{background:var(--key-soft);border-color:var(--key-line);color:var(--key)}
+.year small{display:block;font-weight:400;font-size:13px;opacity:.8;margin-top:1px}
+
+.tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap}
+.tab{flex:1 1 0;min-width:100px;background:var(--card);border:1px solid var(--line);
+  border-radius:9px;padding:9px 6px;cursor:pointer;font-family:inherit;font-weight:600;
+  font-size:16px;color:var(--muted);transition:.14s;text-align:center}
+.tab:hover{border-color:#544636;color:var(--ink)}
+.tab.on{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+.tab small{display:block;font-weight:400;font-size:13px;opacity:.8;margin-top:1px}
+
+.bar{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:10px 13px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.track{flex:1;height:9px;background:#100e0b;border-radius:99px;overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+.fill{height:100%;background:linear-gradient(90deg,var(--accent-line),var(--accent));width:0%;transition:width .25s}
+.pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;min-width:170px;
+  text-align:right;color:var(--key)}
+button.reset{background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--muted);
+  font-family:inherit;font-size:14px;padding:4px 11px;cursor:pointer;transition:.14s}
+button.reset:hover{background:var(--card-2);color:var(--fest);border-color:var(--fest-line)}
+
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);
+  margin:30px 0 11px;font-weight:700}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.rule b{display:block;font-size:16px;margin-bottom:2px;color:var(--key);font-weight:600}
+.rule span{color:var(--muted);font-size:14.5px}
+
+.intro{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:10px;padding:12px 14px;font-size:16px;margin-bottom:18px}
+.intro b{color:var(--accent)}
+
+.dows{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px}
+.dow{text-align:center;font-size:12px;color:var(--muted);font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:6px 6px 8px;
+  cursor:pointer;text-align:left;font-family:inherit;color:var(--ink);
+  min-height:68px;position:relative;transition:.14s}
+.day:hover{background:var(--card-2);border-color:#544636;transform:translateY(-1px)}
+.day.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.day .n{font-weight:700;font-size:17px;display:block;line-height:1.1}
+.day .t{font-size:12px;line-height:1.25;margin-top:3px;display:block;color:var(--muted);
+  word-break:break-word;hyphens:auto}
+.day.festival{background:var(--fest-soft);border-color:var(--fest-line)}
+.day.festival .n{color:var(--fest)} .day.festival .t{color:#c08a78}
+.day.bday{background:var(--bday-soft);border-color:var(--bday-line)}
+.day.bday .n{color:var(--bday)} .day.bday .t{color:#a68cbd}
+.day.key{background:var(--key-soft);border-color:var(--key-line)}
+.day.key .n{color:var(--key)} .day.key .t{color:#7f9cb8}
+.day.sel.festival,.day.sel.bday,.day.sel.key{border-color:var(--accent)}
+.day .dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:99px;
+  background:var(--accent);opacity:0}
+.day.done .dot{opacity:1}
+
+.detail{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:15px 16px;margin-top:12px}
+.detail h3{margin:0 0 2px;font-size:20px;font-weight:700;color:var(--key)}
+.detail .meta{color:var(--muted);font-size:14px;margin:0 0 11px}
+.detail .badge{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;padding:3px 9px;border-radius:99px;margin-left:8px;vertical-align:3px}
+.badge.festival{background:var(--fest-soft);color:var(--fest);border:1px solid var(--fest-line)}
+.badge.bday{background:var(--bday-soft);color:var(--bday);border:1px solid var(--bday-line)}
+.badge.key{background:var(--key-soft);color:var(--key);border:1px solid var(--key-line)}
+
+label.task{display:flex;gap:10px;align-items:flex-start;padding:7px 0;
+  border-top:1px solid var(--line);cursor:pointer}
+label.task:first-of-type{border-top:none}
+label.task input{margin:3px 0 0;accent-color:var(--accent);width:16px;height:16px;
+  flex:0 0 auto;cursor:pointer}
+label.task span{flex:1}
+label.task input:checked + span{color:#6f6353;text-decoration:line-through}
+.en{color:#7d7059;font-size:14px;font-style:italic}
+.note{margin-top:11px;padding:9px 12px;background:#1a1611;border-left:3px solid var(--key);
+  border-radius:0 7px 7px 0;font-size:14.5px;color:#bfae92}
+
+.bundles{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:10px}
+.bundle{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+.bundle h4{margin:0 0 1px;font-size:17px;font-weight:600}
+.bundle .rm{color:var(--muted);font-size:14px;margin:0 0 9px}
+.bundle .rw{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);
+  font-size:14px;color:var(--accent);font-weight:600}
+.hint{background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:13px 15px;
+  font-size:15px;color:#bfae92}
+.hint b{color:var(--key)}
+.hint ul{margin:7px 0 0;padding-left:20px}
+.hint li{margin:4px 0}
+.hint li::marker{color:var(--accent)}
+
+/* placar do vovô */
+#placarWrap{display:none}
+.velas{background:var(--card);border:1px solid var(--key-line);border-radius:10px;
+  padding:14px 16px;margin-bottom:11px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.velas .big{font-size:34px;font-weight:800;color:var(--key);line-height:1;min-width:78px}
+.velas .lbl{flex:1;min-width:190px;font-size:15px;color:#bfae92}
+.velas .lbl b{color:var(--ink);display:block;font-size:18px}
+.candles{font-size:26px;letter-spacing:5px}
+.candles span{opacity:.16;transition:.2s}
+.candles span.on{opacity:1}
+
+/* ---------- alternador de modo ---------- */
+.modes{display:flex;gap:7px;margin:0 0 14px;align-items:center}
+.modes .lbl{flex:1;font-size:14px;color:#6f6353}
+.mode{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 15px;
+  cursor:pointer;font-family:inherit;font-size:15px;color:var(--muted);transition:.14s}
+.mode:hover{color:var(--ink);border-color:#544636}
+.mode.on{background:var(--key-soft);border-color:var(--key-line);color:var(--key);font-weight:600}
+
+body.simples .sub,
+body.simples #plantTitle, body.simples #plant,
+body.simples #rulesTitle, body.simples #rules,
+body.simples #accTitle,   body.simples #acc,
+body.simples .bundle .rw,
+body.simples .bundle .rm{display:none}
+body.simples .intro{font-size:15px;padding:10px 13px}
+body.simples .day{min-height:50px}
+body.simples .detail{padding:13px 15px}
+body.simples .bundle h4{margin-bottom:7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Stardew Valley — Anos 1, 2 e 3</h1>
+  <p class="sub">Do Centro Comunitário até as 4 velas do vovô · versão 1.6 · toda estação começa numa segunda-feira</p>
+
+  <div class="modes" id="modes"></div>
+
+  <div class="years" id="years"></div>
+  <div class="tabs" id="tabs"></div>
+
+  <div class="bar">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="pct" id="pct">0 / 0</div>
+    <button class="reset" id="reset">Zerar tudo</button>
+  </div>
+
+  <div class="intro" id="intro"></div>
+
+  <div class="dows">
+    <div class="dow">Seg</div><div class="dow">Ter</div><div class="dow">Qua</div><div class="dow">Qui</div>
+    <div class="dow">Sex</div><div class="dow">Sáb</div><div class="dow">Dom</div>
+  </div>
+  <div class="cal" id="cal"></div>
+  <div class="detail" id="detail"></div>
+
+  <div id="placarWrap">
+    <h2>Placar do vovô — 21 pontos</h2>
+    <div class="velas">
+      <div class="big" id="pontos">0</div>
+      <div class="lbl"><b id="velasTxt">1 vela</b>0–3 pontos = 1 vela · 4–7 = 2 · 8–11 = 3 · 12+ = 4 velas e a Estátua da Perfeição</div>
+      <div class="candles" id="candles"><span>🕯</span><span>🕯</span><span>🕯</span><span>🕯</span></div>
+    </div>
+    <div class="bundles" id="placar"></div>
+  </div>
+
+  <h2 id="bundlesTitle">Metas da estação</h2>
+  <div class="bundles" id="bundles"></div>
+
+  <h2 id="plantTitle">Janelas de plantio</h2>
+  <div class="hint" id="plant"></div>
+
+  <h2 id="rulesTitle">Regras de ouro (valem os três anos)</h2>
+  <div class="rules" id="rules">
+    <div class="rule"><b>Regue antes de tudo</b><span>Primeira ação do dia, sempre. Planta sem água não cresce.</span></div>
+    <div class="rule"><b>Durma antes das 24h</b><span>Passar das 2h faz você desmaiar — acorda cansado e pode perder ouro.</span></div>
+    <div class="rule"><b>Baú dos conjuntos</b><span>Guarde 1 unidade de todo item novo. Vender o único que você tinha dói.</span></div>
+    <div class="rule"><b>Fale com todo mundo</b><span>Conversa diária já sobe amizade. Presente 2×/semana acelera.</span></div>
+    <div class="rule"><b>Quarta é dia fechado</b><span>O Armazém do Pierre fecha às quartas até o Centro Comunitário ficar pronto.</span></div>
+    <div class="rule"><b>Carrinho: sexta e domingo</b><span>Na Floresta Cinzaseiva. Única fonte de várias sementes no Ano 1.</span></div>
+  </div>
+
+  <h2 id="accTitle">Sobre a precisão deste guia</h2>
+  <div class="hint" id="acc">
+    Datas e horários de festivais, aniversários, itens dos conjuntos, preços e tempos de cultivo, o sistema de 21 pontos do vovô, os custos do barco do Willy e o caminho do Cinema foram conferidos na Stardew Valley Wiki (páginas Spring, Summer, Fall, Winter, Festivals, Bundles, Community Center, Grandpa, Ginger Island, Movie Theater, Red Cabbage Seeds). Os nomes em português vêm da wiki brasileira — <span class="en">o nome em inglês aparece em cinza do lado</span>, caso você jogue com o idioma em inglês.
+    <br><br>
+    <b>Como ler os Anos 2 e 3:</b> festivais e aniversários são idênticos todo ano, então o calendário se repete e só a estratégia muda. Nos dias sem evento eu deixei a rotina padrão da estação em vez de inventar tarefa — a partir do Ano 2 o jogo deixa de ser roteirizado e passa a depender do que você montou.
+    <br><br>
+    <b>O que eu não consegui verificar com 100% de certeza:</b> a penalidade exata de ouro ao desmaiar às 2h; se o Bagre exige chuva; e a tradução oficial de alguns nomes de lugar (Ponto de Ônibus, Montanha, Livreiro). A ordem dia a dia é estratégia minha, não regra do jogo.
+  </div>
+
+</div>
+
+<script>
+const KEY='sdv-tres-anos-v1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){state={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+
+const ANO1={
+
+/* ==================== PRIMAVERA ==================== */
+primavera:{nome:'Primavera',hint:'Fundação',
+intro:'<b>Objetivo do mês:</b> abrir o Centro Comunitário, entrar nas Minas e fechar os dois conjuntos de primavera. Dinheiro é curto — o morango do Festival do Ovo é o seu primeiro salto de renda.',
+plant:'Uma planta colhida <b>depois</b> do dia 28 morre na virada pro Verão. Últimos dias úteis para plantar e ainda colher no dia 28:<ul>'+
+ '<li><b>Couve-flor</b> <span class="en">(Cauliflower)</span> — 80 ouros, 12 dias → até o <b>dia 16</b></li>'+
+ '<li><b>Vagem</b> <span class="en">(Green Bean)</span> — 60 ouros, 10 dias → até o <b>dia 18</b></li>'+
+ '<li><b>Batata</b> <span class="en">(Potato)</span> — 50 ouros, 6 dias → até o <b>dia 22</b></li>'+
+ '<li><b>Chirívia</b> <span class="en">(Parsnip)</span> — 20 ouros, 4 dias → até o <b>dia 24</b></li>'+
+ '<li><b>Morango</b> <span class="en">(Strawberry)</span> — 100 ouros no Festival do Ovo, 8 dias → plantado no dia 13, colhe nos dias <b>21 e 25</b></li></ul>',
+days:[
+ {d:1,tag:'key',lab:'Plantar',tasks:[
+   'Plante as 15 sementes de Chirívia <span class="en">(Parsnip)</span> iniciais, coladas umas nas outras',
+   'Limpe capim, pedras e galhos ao redor da plantação (guarde madeira e pedra)',
+   'Sobrou ouro dos 500 iniciais? Compre mais Chirívia no Armazém do Pierre (20 ouros cada)',
+   'Fale com Robin, Lewis e quem cruzar o caminho'],
+  note:'Plante tudo em bloco perto da fonte de água — economiza passos ao regar.'},
+ {d:2,tag:'key',lab:'Vara de pesca',tasks:[
+   'Regue a plantação',
+   'Leia a carta do Willy na caixa de correio',
+   'Vá à praia (sul da cidade) e pegue a Vara de Bambu <span class="en">(Bamboo Pole)</span> de graça',
+   'Pesque até acabar a energia — Pesca é a habilidade mais lenta do jogo'],
+  note:'A carta do Willy chega no dia 2 e a vara é gratuita. Confirmado na wiki.'},
+ {d:3,tag:'',lab:'Pierre fechado',tasks:[
+   'Regue',
+   'Explore a Floresta Cinzaseiva <span class="en">(Cindersap)</span> e a Montanha coletando recursos',
+   'Guarde no baú: 1 Raiz-forte, 1 Narciso, 1 Alho-poró, 1 Dente-de-leão',
+   'Quebre galhos e troncos — madeira vai faltar'],note:''},
+ {d:4,tag:'bday',lab:'Aniv. Kent',tasks:[
+   'Regue','Continue coletando e pescando','Junte 50 madeiras e 50 pedras'],
+  note:'Kent está na guerra no Ano 1 — só chega no Ano 2. Não dá pra presentear hoje.'},
+ {d:5,tag:'key',lab:'Minas abrem · Centro · Carrinho',tasks:[
+   'Colha as Chirívias do dia 1 e replante',
+   'Leia a carta da Joja: o deslizamento nas Minas foi liberado',
+   'Entre na Vila Pelicanos vindo do Ponto de Ônibus, entre 8h e 13h, em dia sem chuva → cutscene do Centro Comunitário',
+   'Suba pra Montanha e desça o máximo de andares nas Minas',
+   'Carrinho de Viagem na Floresta Cinzaseiva'],
+  note:'O Centro Comunitário só abre entrando pelo Ponto de Ônibus, 8h–13h, sem chuva, do dia 5 em diante. Se chover, tente de novo amanhã.'},
+ {d:6,tag:'',lab:'Minas',tasks:[
+   'Regue',
+   'Leia o pergaminho dourado no Centro Comunitário (missão do "problema de ratos")',
+   'Minas: foco em Minério de Cobre e Carvão'],
+  note:'Depois de ler o pergaminho, chega uma carta do Mago. Visite a torre dele no oeste da Floresta Cinzaseiva pra liberar os conjuntos.'},
+ {d:7,tag:'bday',lab:'Aniv. Lewis · Carrinho',tasks:['Regue','Presente pro Lewis','Minas','Carrinho de Viagem'],note:''},
+ {d:8,tag:'',lab:'Minas',tasks:[
+   'Regue','Minas: alvo é o andar 20','Fabrique uma Fornalha: 25 Pedra + 20 Minério de Cobre'],
+  note:'Clint entrega a receita da Fornalha na manhã seguinte à sua primeira pedra de cobre — saia de casa entre 6h e 11h30 pra disparar a cutscene.'},
+ {d:9,tag:'',lab:'Minas',tasks:['Regue','Minas','Derreta cobre em barras e faça o upgrade do regador ou da picareta'],
+  note:'Upgrade de ferramenta tira ela de você por 2 dias — faça em dia de chuva se der.'},
+ {d:10,tag:'bday',lab:'Aniv. Vincent · Pierre fechado',tasks:['Regue','Presente pro Vincent','Minas'],note:''},
+ {d:11,tag:'',lab:'Livreiro?',tasks:['Regue','Minas ou pesca','Confira se o Livreiro <span class="en">(Bookseller)</span> apareceu na cidade'],
+  note:'O Livreiro aparece 2 vezes na primavera, sorteadas entre os dias 11, 12, 21, 22 e 25.'},
+ {d:12,tag:'key',lab:'Junte ouro · Carrinho',tasks:[
+   'Regue','Venda tudo que NÃO é item de conjunto','Chegue no dia 13 com o máximo de ouro possível','Carrinho de Viagem'],
+  note:'Cada semente de Morango custa 100 ouros e o festival é a única fonte fácil delas no Ano 1.'},
+ {d:13,tag:'festival',lab:'Festival do Ovo',tasks:[
+   'Entre na praça da Vila Pelicanos entre 9h e 14h',
+   'Junte 9 ovos coloridos na caça (50 segundos) pra ganhar o Chapéu de Palha',
+   'Compre o máximo de sementes de Morango (100 ouros cada)',
+   'Plante os morangos assim que voltar pra fazenda'],
+  note:'Morango plantado no dia do festival rende 2 colheitas na primavera: dias 21 e 25.'},
+ {d:14,tag:'bday',lab:'Aniv. Haley · Carrinho',tasks:['Regue','Presente pra Haley','Carrinho de Viagem'],note:''},
+ {d:15,tag:'key',lab:'Amora-silvestre começa',tasks:[
+   'Regue',
+   'Bata nos arbustos pelo mapa — Amora-silvestre <span class="en">(Salmonberry)</span> de graça (dias 15 a 18)',
+   'Encha a mochila: é sua comida de energia pro resto do mês'],
+  note:'O Festival do Deserto roda nos dias 15–17 (10h às 2h), mas exige o ônibus consertado. Na prática, inacessível na Primavera do Ano 1.'},
+ {d:16,tag:'key',lab:'Último dia: Couve-flor',tasks:[
+   'Regue','Plante Couve-flor HOJE (80 ouros, 12 dias) pra colher no dia 28','Colete Amora-silvestre'],
+  note:'Couve-flor é item obrigatório do Conjunto Plantações de Primavera.'},
+ {d:17,tag:'',lab:'Pote de Ouro · Pierre fechado',tasks:[
+   'Regue','Procure o Pote de Ouro na Floresta Cinzaseiva','Colete Amora-silvestre'],note:''},
+ {d:18,tag:'bday',lab:'Aniv. Pam · Último dia: Vagem',tasks:[
+   'Regue','Plante Vagem HOJE (60 ouros, 10 dias) pra colher no dia 28','Presente pra Pam','Último dia de Amora-silvestre'],note:''},
+ {d:19,tag:'',lab:'Carrinho',tasks:['Regue','Minas / pesca','Carrinho de Viagem'],note:''},
+ {d:20,tag:'bday',lab:'Aniv. Shane',tasks:['Regue','Presente pro Shane','Minas / pesca'],note:''},
+ {d:21,tag:'key',lab:'1ª colheita de morango · Carrinho',tasks:[
+   'Regue','Colha os morangos (eles rebrotam)','Carrinho de Viagem','Livreiro?'],note:''},
+ {d:22,tag:'key',lab:'Último dia: Batata',tasks:['Regue','Plante Batata HOJE (50 ouros, 6 dias) pra colher no dia 28','Livreiro?'],note:''},
+ {d:23,tag:'',lab:'Amizade',tasks:['Regue','Suba pra 4 corações com um pretendente se quiser dançar amanhã','Minas / pesca'],note:''},
+ {d:24,tag:'festival',lab:'Dança das Flores',tasks:[
+   'Entre na Floresta Cinzaseiva entre 9h e 14h',
+   'Compre Narciso e Dente-de-leão na barraca do Pierre — garantia do Conjunto Recursos de Primavera',
+   'Convide alguém pra dançar (aceita só com 4+ corações)',
+   'Último dia útil pra plantar Chirívia'],
+  note:'Dançar dá 1 coração inteiro (250 pontos) de amizade com o par.'},
+ {d:25,tag:'',lab:'2ª colheita de morango',tasks:['Regue','Colha os morangos','Livreiro?'],note:''},
+ {d:26,tag:'bday',lab:'Aniv. Pierre · Carrinho',tasks:['Regue','Presente pro Pierre','Carrinho de Viagem'],note:''},
+ {d:27,tag:'bday',lab:'Aniv. Emily',tasks:['Regue','Presente pra Emily','Última corrida nas Minas do mês'],note:''},
+ {d:28,tag:'key',lab:'Fim da Primavera',tasks:[
+   'Colha TUDO — o que ficar no chão morre na virada pro Verão',
+   'Entregue os conjuntos no Centro Comunitário',
+   'Compre sementes de Verão (Mirtilo e Milho são as prioridades)',
+   'Carrinho de Viagem'],
+  note:'Plantações de primavera não colhidas somem no dia 1 do Verão. Vagem e morango também.'}],
+bundles:[
+ {t:'Conjunto Recursos de Primavera',en:'Spring Foraging',r:'Sala de Artesanato',
+  items:['Raiz-forte <span class="en">(Wild Horseradish)</span>','Narciso <span class="en">(Daffodil)</span>',
+         'Alho-poró <span class="en">(Leek)</span>','Dente-de-leão <span class="en">(Dandelion)</span>'],
+  rw:'Recompensa: 30 Sementes de Primavera'},
+ {t:'Conjunto Plantações de Primavera',en:'Spring Crops',r:'Copa',
+  items:['Chirívia <span class="en">(Parsnip)</span>','Vagem <span class="en">(Green Bean)</span>',
+         'Couve-flor <span class="en">(Cauliflower)</span>','Batata <span class="en">(Potato)</span>'],
+  rw:'Recompensa: 20 Solo Foliar (Speed-Gro)'},
+ {t:'Peixes de conjunto nesta estação',en:'',r:'Aquário',
+  items:['Peixe-sol <span class="en">(Sunfish)</span> — rio','Alocine <span class="en">(Shad)</span> — rio',
+         'Bagre <span class="en">(Catfish)</span> — rio','Carpa <span class="en">(Carp)</span> — lago',
+         'Achigã <span class="en">(Largemouth Bass)</span> — lago','Peixe-gato-cabeçudo <span class="en">(Bullhead)</span> — lago',
+         'Sardinha <span class="en">(Sardine)</span> — oceano','Enguia <span class="en">(Eel)</span> — rio, à noite'],
+  rw:'Salmão Híbrido e Esturjão só aparecem no outono/inverno e verão/inverno'},
+ {t:'Conjunto Construção',en:'Construction',r:'Sala de Artesanato',
+  items:['99 Madeira','99 Madeira','99 Pedra','10 Madeira de Lei <span class="en">(Hardwood)</span>'],
+  rw:'Madeira de Lei exige Machado de Aço → provavelmente só no Verão'}]},
+
+/* ==================== VERÃO ==================== */
+verao:{nome:'Verão',hint:'Dinheiro',
+intro:'<b>Objetivo do mês:</b> transformar a fazenda em máquina de dinheiro com Mirtilo, e caçar as Sementes de Repolho Roxo no Carrinho de Viagem — sem elas o Centro Comunitário não fecha no Ano 1.',
+plant:'Últimos dias úteis para plantar e ainda colher no dia 28:<ul>'+
+ '<li><b>Mirtilo</b> <span class="en">(Blueberry)</span> — 80 ouros, 13 dias, rebrota a cada 4 → até o <b>dia 15</b></li>'+
+ '<li><b>Melão</b> <span class="en">(Melon)</span> — 80 ouros, 12 dias → até o <b>dia 16</b></li>'+
+ '<li><b>Tomate</b> e <b>Lúpulo</b> — 11 dias → até o <b>dia 17</b></li>'+
+ '<li><b>Repolho Roxo</b> <span class="en">(Red Cabbage)</span> — 9 dias → até o <b>dia 19</b></li>'+
+ '<li><b>Girassol</b> e <b>Flor-Miçanga</b> — 8 dias → até o <b>dia 20</b></li>'+
+ '<li><b>Papoula</b> — 7 dias → até o <b>dia 21</b> · <b>Rabanete</b> — 6 dias → até o <b>dia 22</b></li>'+
+ '<li><b>Pimenta Picante</b> — 5 dias, rebrota a cada 3 → até o <b>dia 23</b> · <b>Trigo</b> — 4 dias → até o <b>dia 24</b></li>'+
+ '<li><b>Milho</b> <span class="en">(Corn)</span> — 150 ouros, 14 dias → plante até o <b>dia 14</b>. Ele <b>não morre</b> na virada pro Outono: continua produzindo.</li></ul>',
+days:[
+ {d:1,tag:'key',lab:'Plantar mirtilo',tasks:[
+   'Plante o maior campo de Mirtilo <span class="en">(Blueberry)</span> que o dinheiro permitir — 80 ouros a semente',
+   'Plante Milho <span class="en">(Corn)</span>: ele sobrevive até o Outono, não precisa replantar',
+   'Compre 1 Tomate e 1 Pimenta Picante pro Conjunto Plantações de Verão',
+   'Regue tudo'],
+  note:'Mirtilo plantado hoje colhe nos dias 14, 18, 22 e 26 — 3 frutas por pé em cada colheita.'},
+ {d:2,tag:'',lab:'Rotina',tasks:['Regue','Minas ou pesca','Fale com quem cruzar o caminho'],note:''},
+ {d:3,tag:'',lab:'Pierre fechado',tasks:[
+   'Regue','Colete Uva, Café de jardim <span class="en">(Spice Berry)</span> e Ervilha-de-cheiro <span class="en">(Sweet Pea)</span>',
+   'Guarde 1 de cada no baú dos conjuntos'],note:''},
+ {d:4,tag:'bday',lab:'Aniv. Jas',tasks:['Regue','Presente pra Jas','Minas'],note:''},
+ {d:5,tag:'key',lab:'Carrinho — Repolho Roxo',tasks:[
+   'Regue','Vá ao Carrinho de Viagem na Floresta Cinzaseiva',
+   'Procure Sementes de Repolho Roxo <span class="en">(Red Cabbage Seeds)</span> — compre custe o que custar'],
+  note:'O Repolho Roxo é item do Conjunto Tinta e as sementes só entram no Armazém do Pierre a partir do Ano 2. No Ano 1 a única fonte é o Carrinho de Viagem, e o estoque é aleatório — cheque toda sexta e domingo.'},
+ {d:6,tag:'',lab:'Minas',tasks:['Regue','Minas: mire no andar 40 (minério de ferro)','Pesque à noite'],note:''},
+ {d:7,tag:'',lab:'Carrinho',tasks:['Regue','Carrinho de Viagem','Minas'],note:''},
+ {d:8,tag:'bday',lab:'Aniv. Gus',tasks:['Regue','Presente pro Gus','Minas'],note:''},
+ {d:9,tag:'',lab:'Livreiro?',tasks:['Regue','Confira se o Livreiro apareceu','Minas ou pesca'],
+  note:'No verão o Livreiro aparece 2 vezes, sorteadas entre os dias 9, 12, 18, 25 e 27.'},
+ {d:10,tag:'bday',lab:'Aniv. Maru · Pierre fechado',tasks:['Regue','Presente pra Maru','Minas'],note:''},
+ {d:11,tag:'festival',lab:'Luau',tasks:[
+   'Entre na praia entre 9h e 14h',
+   'Coloque na sopa o item de MAIOR qualidade que você tiver (ouro ou irídio)',
+   'Nunca coloque lixo, alga ou algo barato — derruba amizade com a cidade inteira'],
+  note:'A reação do Governador muda a amizade com TODOS os aldeões, pra cima ou pra baixo.'},
+ {d:12,tag:'key',lab:'Coleta extra na praia · Carrinho',tasks:[
+   'Regue','Vasculhe a praia: nos dias 12 a 14 aparecem coletáveis extras','Carrinho de Viagem — cheque o Repolho Roxo'],note:''},
+ {d:13,tag:'bday',lab:'Aniv. Alex',tasks:['Regue','Presente pro Alex','Coleta extra na praia'],note:''},
+ {d:14,tag:'key',lab:'1ª colheita de mirtilo',tasks:[
+   'Regue','Colha os mirtilos','Coleta extra na praia (último dia)','Último dia útil pra plantar Milho'],note:''},
+ {d:15,tag:'key',lab:'Último dia: mirtilo',tasks:[
+   'Regue','Plantou mirtilo hoje? Ainda colhe uma vez no dia 28','Minas'],note:''},
+ {d:16,tag:'key',lab:'Último dia: melão',tasks:['Regue','Plante Melão HOJE (80 ouros, 12 dias) — item do conjunto','Minas'],note:''},
+ {d:17,tag:'bday',lab:'Aniv. Sam · Último: tomate e lúpulo',tasks:[
+   'Regue','Plante Tomate hoje se ainda faltar pro conjunto','Presente pro Sam'],note:''},
+ {d:18,tag:'',lab:'2ª colheita de mirtilo',tasks:['Regue','Colha os mirtilos','Livreiro?'],note:''},
+ {d:19,tag:'bday',lab:'Aniv. Demetrius · Carrinho',tasks:[
+   'Regue','Presente pro Demetrius','Carrinho de Viagem — última chance boa pro Repolho Roxo'],note:''},
+ {d:20,tag:'festival',lab:'Competição de Truta (20–21)',tasks:[
+   'Vá ao rio da Floresta Cinzaseiva, abaixo do Rancho da Marnie',
+   'Pesque Truta Arco-íris o dia todo — cada uma pode dar uma Etiqueta Dourada',
+   'Troque as etiquetas na barraca por Kit de Barraca, Chapéu Bucket e Truta Empalhada'],
+  note:'O tempo passa normalmente e as lojas ficam abertas: dá pra fazer as tarefas da fazenda no mesmo dia. Vai das 6h10 às 2h.'},
+ {d:21,tag:'festival',lab:'Competição de Truta · Carrinho',tasks:[
+   'Regue','Segundo e último dia da competição','Carrinho de Viagem'],note:''},
+ {d:22,tag:'bday',lab:'Aniv. Anão · 3ª colheita',tasks:[
+   'Regue','Colha os mirtilos','Último dia útil pra plantar Rabanete'],
+  note:'O Anão só conversa com você depois que o Museu decifra o Guia de Tradução Anão (4 pergaminhos anões).'},
+ {d:23,tag:'key',lab:'Último: pimenta picante',tasks:['Regue','Plante Pimenta Picante hoje se faltar pro conjunto','Minas'],note:''},
+ {d:24,tag:'bday',lab:'Aniv. Willy · Último: trigo',tasks:['Regue','Presente pro Willy','Minas ou pesca'],note:''},
+ {d:25,tag:'',lab:'Livreiro?',tasks:['Regue','Livreiro?','Minas'],note:''},
+ {d:26,tag:'bday',lab:'Aniv. Leo · 4ª colheita · Carrinho',tasks:[
+   'Regue','Colha os mirtilos','Carrinho de Viagem'],
+  note:'Leo mora na Ilha Gengibre — não dá pra conhecer nem presentear no Ano 1.'},
+ {d:27,tag:'',lab:'Preparação',tasks:['Regue','Livreiro?','Junte ouro pras sementes de outono'],note:''},
+ {d:28,tag:'festival',lab:'Dança das Medusas-da-Lua',tasks:[
+   'De dia: colha TUDO — plantações de verão morrem na virada (menos milho, girassol e trigo)',
+   'Compre sementes de Outono antes de sair',
+   'Entre na praia entre 22h e 24h pra ver as medusas',
+   'Carrinho de Viagem'],
+  note:'Milho, Girassol e Trigo atravessam a virada Verão → Outono sem morrer.'}],
+bundles:[
+ {t:'Conjunto Recursos de Verão',en:'Summer Foraging',r:'Sala de Artesanato',
+  items:['Uva <span class="en">(Grape)</span>','Café de jardim <span class="en">(Spice Berry)</span>','Ervilha-de-cheiro <span class="en">(Sweet Pea)</span>'],
+  rw:'Recompensa: Sementes de Verão'},
+ {t:'Conjunto Plantações de Verão',en:'Summer Crops',r:'Copa',
+  items:['Tomate <span class="en">(Tomato)</span>','Pimenta Picante <span class="en">(Hot Pepper)</span>',
+         'Mirtilo <span class="en">(Blueberry)</span>','Melão <span class="en">(Melon)</span>'],
+  rw:'Recompensa: Aspersor de Qualidade'},
+ {t:'Peixes de conjunto nesta estação',en:'',r:'Aquário',
+  items:['Peixe-sol <span class="en">(Sunfish)</span> — rio','Alocine <span class="en">(Shad)</span> — rio',
+         'Carpa <span class="en">(Carp)</span> — lago','Esturjão <span class="en">(Sturgeon)</span> — lago',
+         'Atum <span class="en">(Tuna)</span> — oceano','Cioba <span class="en">(Red Snapper)</span> — oceano',
+         'Tilápia <span class="en">(Tilapia)</span> — oceano','Baiacu <span class="en">(Pufferfish)</span> — oceano, no calor'],
+  rw:'Achigã, Peixe-gato-cabeçudo e Brema saem o ano todo'},
+ {t:'Atenção: Repolho Roxo',en:'',r:'Conjunto Tinta · Quadro de Avisos',
+  items:['Sementes compradas no Carrinho de Viagem','Repolho Roxo colhido e guardado'],
+  rw:'Sem isso o Centro Comunitário não fecha no Ano 1'}]},
+
+/* ==================== OUTONO ==================== */
+outono:{nome:'Outono',hint:'Colheita',
+intro:'<b>Objetivo do mês:</b> Oxicoco paga as contas, Abóbora ganha a Feira. É a última estação com plantio ao ar livre — o que não render aqui, só no Ano 2.',
+plant:'Últimos dias úteis para plantar e ainda colher no dia 28:<ul>'+
+ '<li><b>Cereja de Joia Doce</b> <span class="en">(Sweet Gem Berry)</span> — 24 dias, 1.000 ouros no Carrinho → até o <b>dia 4</b>. Vende por 3.000 ouros.</li>'+
+ '<li><b>Milho</b> — 14 dias → até o <b>dia 14</b> (o do verão já está produzindo)</li>'+
+ '<li><b>Abóbora</b> <span class="en">(Pumpkin)</span> — 100 ouros, 13 dias → até o <b>dia 15</b></li>'+
+ '<li><b>Rosa-de-fada</b> — 12 dias → até o <b>dia 16</b></li>'+
+ '<li><b>Inhame</b> <span class="en">(Yam)</span> e <b>Uva</b> — 10 dias → até o <b>dia 18</b></li>'+
+ '<li><b>Alcachofra</b> e <b>Girassol</b> — 8 dias → até o <b>dia 20</b></li>'+
+ '<li><b>Oxicoco</b> <span class="en">(Cranberries)</span> — 240 ouros, 7 dias, rebrota a cada 5 → até o <b>dia 21</b> · <b>Amaranto</b> — 7 dias</li>'+
+ '<li><b>Beterraba</b> — 6 dias → até o <b>dia 22</b> · <b>Berinjela</b> — 5 dias, rebrota a cada 5 → até o <b>dia 23</b></li>'+
+ '<li><b>Acelga Chinesa</b> e <b>Trigo</b> — 4 dias → até o <b>dia 24</b></li></ul>',
+days:[
+ {d:1,tag:'key',lab:'Plantar oxicoco e abóbora',tasks:[
+   'Plante um campo grande de Oxicoco <span class="en">(Cranberries)</span> — 240 ouros, rebrota a cada 5 dias, 2 frutas por colheita',
+   'Plante Abóbora <span class="en">(Pumpkin)</span>: item do conjunto E sua melhor peça na Feira',
+   'Plante Berinjela, Inhame e Milho pro Conjunto Plantações de Outono',
+   'O milho plantado no verão continua produzindo — não arranque'],
+  note:'Oxicoco plantado hoje colhe nos dias 8, 13, 18, 23 e 28.'},
+ {d:2,tag:'bday',lab:'Aniv. Penny',tasks:['Regue','Presente pra Penny','Minas'],note:''},
+ {d:3,tag:'',lab:'Pierre fechado',tasks:['Regue','Colete Cogumelo Comum, Ameixa selvagem e Avelã','Minas'],note:''},
+ {d:4,tag:'key',lab:'Último: Cereja de Joia Doce · Livreiro?',tasks:[
+   'Regue','Se o Carrinho tiver Semente de Cereja de Joia Doce, compre e plante HOJE','Livreiro?'],
+  note:'24 dias de crescimento: plantada depois do dia 4 ela não amadurece antes do Inverno. Vende por 3.000 ouros — o item mais caro que dá pra plantar.'},
+ {d:5,tag:'bday',lab:'Aniv. Elliott · Carrinho',tasks:['Regue','Presente pro Elliott','Carrinho de Viagem'],note:''},
+ {d:6,tag:'',lab:'Minas',tasks:['Regue','Minas: mire no andar 80+','Pesque à noite (Picão-verde e Enguia)'],note:''},
+ {d:7,tag:'',lab:'Carrinho · Livreiro?',tasks:['Regue','Carrinho de Viagem','Livreiro?'],
+  note:'No outono o Livreiro aparece 2 vezes, sorteadas entre os dias 4, 7, 8, 9, 12, 19, 22 e 25.'},
+ {d:8,tag:'key',lab:'Temporada de Amora (8–11)',tasks:[
+   'Regue','Bata nos arbustos pelo mapa — Amora <span class="en">(Blackberry)</span> de graça até o dia 11',
+   'Colha o oxicoco'],note:''},
+ {d:9,tag:'',lab:'Amora · Livreiro?',tasks:['Regue','Colete Amora','Livreiro?'],note:''},
+ {d:10,tag:'',lab:'Pierre fechado',tasks:['Regue','Colete Amora','Minas'],note:''},
+ {d:11,tag:'bday',lab:'Aniv. Jodi · Último dia de Amora',tasks:['Regue','Presente pra Jodi','Último dia de Amora'],note:''},
+ {d:12,tag:'',lab:'Carrinho · Livreiro?',tasks:['Regue','Carrinho de Viagem','Livreiro?'],note:''},
+ {d:13,tag:'bday',lab:'Aniv. Abigail · Colheita',tasks:['Regue','Presente pra Abigail','Colha o oxicoco'],note:''},
+ {d:14,tag:'key',lab:'Último: milho · Carrinho',tasks:['Regue','Último dia útil pra plantar Milho','Carrinho de Viagem'],note:''},
+ {d:15,tag:'bday',lab:'Aniv. Sandy · Último: abóbora',tasks:[
+   'Regue','Plante Abóbora HOJE se ainda faltar pra Feira ou pro conjunto',
+   'Separe seus 9 melhores itens pra Exposição de amanhã'],
+  note:'Sandy mora no Oásis, no Deserto — só dá pra presentear se o ônibus estiver consertado.'},
+ {d:16,tag:'festival',lab:'Feira do Vale do Orvalho',tasks:[
+   'Entre na Vila Pelicanos entre 9h e 15h',
+   'Monte a Exposição com 9 itens: varie as categorias (animal, plantação, coleta, peixe, mineral, artesanal, cozinha)',
+   'Use sempre a maior qualidade que tiver — pontuação depende disso',
+   'Troque as Fichas Estrela por prêmios (o Espantalho Raro e o Chapéu-de-Palha são os populares)',
+   'Coma o Hambúrguer de Sobrevivência do Gus — é de graça'],
+  note:'Os itens da Exposição voltam pra você, mas não automaticamente. Se esquecer, procure na caixa de achados e perdidos da Prefeitura.'},
+ {d:17,tag:'',lab:'Pierre fechado',tasks:['Regue','Minas','Pesca noturna'],note:''},
+ {d:18,tag:'bday',lab:'Aniv. Marnie · Último: inhame e uva',tasks:[
+   'Regue','Presente pra Marnie','Plante Inhame hoje se ainda faltar pro conjunto','Colha o oxicoco'],note:''},
+ {d:19,tag:'',lab:'Carrinho · Livreiro?',tasks:['Regue','Carrinho de Viagem','Livreiro?'],note:''},
+ {d:20,tag:'key',lab:'Último: alcachofra e girassol',tasks:['Regue','Minas','Pesca'],note:''},
+ {d:21,tag:'bday',lab:'Aniv. Robin · Último: oxicoco · Carrinho',tasks:[
+   'Regue','Presente pra Robin','Último dia útil pra plantar Oxicoco e Amaranto','Carrinho de Viagem'],note:''},
+ {d:22,tag:'key',lab:'Último: beterraba · Livreiro?',tasks:['Regue','Minas','Livreiro?'],note:''},
+ {d:23,tag:'key',lab:'Último: berinjela · Colheita',tasks:['Regue','Plante Berinjela hoje se faltar pro conjunto','Colha o oxicoco'],note:''},
+ {d:24,tag:'bday',lab:'Aniv. George · Último: trigo',tasks:['Regue','Presente pro George','Último dia útil pra Acelga Chinesa e Trigo'],note:''},
+ {d:25,tag:'',lab:'Livreiro?',tasks:['Regue','Livreiro?','Prepare o inverno: comida, iscas, madeira'],note:''},
+ {d:26,tag:'',lab:'Carrinho',tasks:['Regue','Carrinho de Viagem','Minas'],note:''},
+ {d:27,tag:'festival',lab:'Véspera dos Espíritos',tasks:[
+   'De dia: rotina normal (o festival só começa às 22h)',
+   'Entre na Vila Pelicanos entre 22h e 23h50',
+   'Faça o labirinto ao norte da barraca do Pierre → Abóbora Dourada',
+   'Compre o Espantalho Raro e a receita da Abóbora-Lanterna na barraca'],
+  note:'A Abóbora Dourada sai em anos ímpares — o Ano 1 conta. Em anos pares o prêmio do labirinto é um Bilhete de Prêmio.'},
+ {d:28,tag:'key',lab:'Fim do Outono',tasks:[
+   'Colha TUDO — nada de outono sobrevive ao Inverno',
+   'Entregue os conjuntos no Centro Comunitário',
+   'Estoque comida, madeira e iscas: o inverno não produz nada',
+   'Carrinho de Viagem'],
+  note:'Diferente da virada Verão → Outono, aqui nenhuma plantação atravessa. Colha tudo hoje.'}],
+bundles:[
+ {t:'Conjunto Recursos de Outono',en:'Fall Foraging',r:'Sala de Artesanato',
+  items:['Cogumelo Comum <span class="en">(Common Mushroom)</span>','Ameixa selvagem <span class="en">(Wild Plum)</span>',
+         'Avelã <span class="en">(Hazelnut)</span>','Amora <span class="en">(Blackberry)</span>'],
+  rw:'Recompensa: Sementes de Outono'},
+ {t:'Conjunto Plantações de Outono',en:'Fall Crops',r:'Copa',
+  items:['Milho <span class="en">(Corn)</span>','Berinjela <span class="en">(Eggplant)</span>',
+         'Abóbora <span class="en">(Pumpkin)</span>','Inhame <span class="en">(Yam)</span>'],
+  rw:'Recompensa: Apiário'},
+ {t:'Peixes de conjunto nesta estação',en:'',r:'Aquário',
+  items:['Bagre <span class="en">(Catfish)</span> — rio','Alocine <span class="en">(Shad)</span> — rio',
+         'Salmão Híbrido <span class="en">(Tiger Trout)</span> — rio/lago','Carpa <span class="en">(Carp)</span> — lago',
+         'Sardinha <span class="en">(Sardine)</span> — oceano','Cioba <span class="en">(Red Snapper)</span> — oceano',
+         'Tilápia <span class="en">(Tilapia)</span> — oceano','Picão-verde <span class="en">(Walleye)</span> — à noite',
+         'Enguia <span class="en">(Eel)</span> — à noite'],
+  rw:'O outono é a estação com mais peixes de conjunto disponíveis'},
+ {t:'Conjunto Construção',en:'Construction',r:'Sala de Artesanato',
+  items:['99 Madeira','99 Madeira','99 Pedra','10 Madeira de Lei <span class="en">(Hardwood)</span>'],
+  rw:'Madeira de Lei: tocos grandes no Bosque Secreto, com Machado de Aço'}]},
+
+/* ==================== INVERNO ==================== */
+inverno:{nome:'Inverno',hint:'Minas e amizade',
+intro:'<b>Objetivo do mês:</b> nada cresce ao ar livre, então o inverno é para Minas, Museu, amizade e upgrades de ferramenta. É o melhor mês do ano pra subir corações — todo mundo fica mais tempo em casa.',
+plant:'<b>Nenhuma plantação normal cresce ao ar livre no Inverno.</b> As três exceções:<ul>'+
+ '<li><b>Melão-Poeiro</b> <span class="en">(Powdermelon)</span> — 7 dias, das Sementes de Melão-Poeiro (novidade da 1.6)</li>'+
+ '<li><b>Sementes de Inverno</b> <span class="en">(Winter Seeds)</span> — 7 dias, dão os coletáveis de inverno</li>'+
+ '<li><b>Sementes de Fibra</b> <span class="en">(Fiber Seeds)</span> — fibra pra artesanato</li></ul>'+
+ '<br>Se a Copa <span class="en">(Pantry)</span> já estiver completa, a Estufa está liberada e aí você planta o que quiser o ano todo.',
+days:[
+ {d:1,tag:'key',lab:'Sem plantações',tasks:[
+   'Arranque o que sobrou do outono (morreu tudo)',
+   'Plante Sementes de Inverno e Melão-Poeiro se tiver',
+   'Vire a chave: este mês é Minas, Museu, amizade e upgrades'],
+  note:'Aniversário do Krobus, mas ele mora no Esgoto — precisa da Chave Enferrujada, que o Museu dá com 60 doações.'},
+ {d:2,tag:'',lab:'Museu',tasks:[
+   'Are a terra pelo mapa: no inverno saem Inhame da Neve, Raiz de Inverno e Argila',
+   'Doe tudo que for novo no Museu','Minas'],
+  note:'Inhame da Neve e Raiz de Inverno só saem arando o chão — são 2 dos 4 itens do Conjunto Recursos de Inverno.'},
+ {d:3,tag:'bday',lab:'Aniv. Linus · Pierre fechado',tasks:['Presente pro Linus','Minas','Are a terra atrás de artefatos'],note:''},
+ {d:4,tag:'',lab:'Minas',tasks:['Minas: alvo é o andar 120','Colete Flor de Açafrão e Fruta de Cristal pelo mapa'],note:''},
+ {d:5,tag:'',lab:'Carrinho · Livreiro?',tasks:['Carrinho de Viagem','Livreiro?','Minas'],
+  note:'No inverno o Livreiro aparece 2 vezes, sorteadas entre os dias 5, 11, 12, 19, 22 e 24.'},
+ {d:6,tag:'',lab:'Amizade',tasks:['Dê presentes em 3 ou 4 casas','Pesque no lago da Montanha'],note:''},
+ {d:7,tag:'bday',lab:'Aniv. Caroline · Carrinho',tasks:['Presente pra Caroline','Carrinho de Viagem','Minas'],note:''},
+ {d:8,tag:'festival',lab:'Festival do Gelo',tasks:[
+   'Entre na Floresta Cinzaseiva entre 9h e 14h',
+   'Entre no concurso de pesca no gelo — pegue 5 peixes pra ganhar',
+   'A vara é emprestada durante a prova, não precisa levar a sua'],
+  note:'Ganhar na primeira vez rende 2 anzóis, 1 isca Ímã e o Boné de Marinheiro. Nos anos seguintes vira Bilhete de Prêmio.'},
+ {d:9,tag:'',lab:'Minas',tasks:['Minas','Doações no Museu'],note:''},
+ {d:10,tag:'bday',lab:'Aniv. Sebastian · Pierre fechado',tasks:['Presente pro Sebastian','Minas'],note:''},
+ {d:11,tag:'',lab:'Livreiro?',tasks:['Livreiro?','Prepare iscas e comida pro Festival da Lula'],note:''},
+ {d:12,tag:'festival',lab:'Festival da Lula (12–13)',tasks:[
+   'Vá à praia — o festival roda das 6h10 às 2h',
+   'Pesque 8 Lulas HOJE pra levar todos os prêmios do dia 1',
+   'Leve comida: a pescaria consome muita energia'],
+  note:'O tempo passa e as lojas ficam abertas. O contador de lulas zera na virada pro dia 13, e os prêmios do dia 13 são diferentes.'},
+ {d:13,tag:'festival',lab:'Festival da Lula — dia 2',tasks:[
+   'Pesque 10 Lulas hoje pra levar todos os prêmios do dia 2',
+   'Prêmios incluem o Chapéu de Lula e o livro "The Art O\' Crabbing"'],note:''},
+ {d:14,tag:'bday',lab:'Aniv. Harvey · Carrinho',tasks:['Presente pro Harvey','Carrinho de Viagem','Minas'],note:''},
+ {d:15,tag:'key',lab:'Mercado Noturno (15–17)',tasks:[
+   'De dia: rotina normal. O mercado abre às 17h e vai até as 2h',
+   'Vá à praia: lojas de sementes raras, decoração e o submarino de pesca profunda',
+   'O submarino tem peixes que só existem aqui'],
+  note:'O tempo passa e as lojas da cidade continuam abertas nos 3 dias.'},
+ {d:16,tag:'',lab:'Mercado Noturno',tasks:['Minas de dia','Mercado Noturno à noite','Assista ao show da sereia'],note:''},
+ {d:17,tag:'bday',lab:'Aniv. Feiticeiro · Mercado (último dia)',tasks:[
+   'Presente pro Feiticeiro (torre no oeste da Floresta Cinzaseiva)','Último dia do Mercado Noturno'],note:''},
+ {d:18,tag:'key',lab:'Carta do amigo secreto',tasks:[
+   'Leia a carta do Lewis: ela diz quem você vai presentear no dia 25',
+   'Pesquise o que essa pessoa adora e providencie até lá'],
+  note:'Presente adorado no Festival da Estrela Invernal vale muito mais amizade que um presente qualquer.'},
+ {d:19,tag:'',lab:'Carrinho · Livreiro?',tasks:['Carrinho de Viagem','Livreiro?','Minas'],note:''},
+ {d:20,tag:'bday',lab:'Aniv. Evelyn',tasks:['Presente pra Evelyn','Minas','Doações no Museu'],note:''},
+ {d:21,tag:'',lab:'Carrinho',tasks:['Carrinho de Viagem','Upgrade de ferramenta com o Clint'],note:''},
+ {d:22,tag:'',lab:'Livreiro?',tasks:['Livreiro?','Minas','Pesca'],note:''},
+ {d:23,tag:'bday',lab:'Aniv. Leah',tasks:['Presente pra Leah','Minas'],note:''},
+ {d:24,tag:'',lab:'Pierre fechado · Livreiro?',tasks:['Livreiro?','Confirme que o presente do dia 25 está na mochila'],note:''},
+ {d:25,tag:'festival',lab:'Festival da Estrela Invernal',tasks:[
+   'Entre na Vila Pelicanos entre 9h e 14h',
+   'Entregue o presente pra pessoa da carta do dia 18',
+   'Fale com todo mundo — é amizade grátis'],note:''},
+ {d:26,tag:'bday',lab:'Aniv. Clint · Carrinho',tasks:['Presente pro Clint','Carrinho de Viagem','Minas'],note:''},
+ {d:27,tag:'',lab:'Balanço do ano',tasks:[
+   'Confira quais conjuntos ainda faltam e anote o que perseguir no Ano 2',
+   'Deixe a terra arada e adubada pro dia 1'],note:''},
+ {d:28,tag:'key',lab:'Último dia do Ano 1',tasks:[
+   'COMPRE as sementes de primavera HOJE — assim você planta logo na manhã do dia 1',
+   'Entregue tudo que der no Centro Comunitário',
+   'Carrinho de Viagem'],
+  note:'Comprar sementes hoje economiza meio dia inteiro no dia 1 do Ano 2.'}],
+bundles:[
+ {t:'Conjunto Recursos de Inverno',en:'Winter Foraging',r:'Sala de Artesanato',
+  items:['Raiz de Inverno <span class="en">(Winter Root)</span> — arando a terra','Fruta de Cristal <span class="en">(Crystal Fruit)</span> — coleta',
+         'Inhame da Neve <span class="en">(Snow Yam)</span> — arando a terra','Flor de Açafrão <span class="en">(Crocus)</span> — coleta'],
+  rw:'Recompensa: Sementes de Inverno'},
+ {t:'Peixes de conjunto nesta estação',en:'',r:'Aquário',
+  items:['Salmão Híbrido <span class="en">(Tiger Trout)</span> — rio/lago','Esturjão <span class="en">(Sturgeon)</span> — lago',
+         'Sardinha <span class="en">(Sardine)</span> — oceano','Atum <span class="en">(Tuna)</span> — oceano',
+         'Lula <span class="en">(Squid)</span> — oceano à noite'],
+  rw:'Esturjão e Salmão Híbrido fecham os conjuntos de rio e lago'},
+ {t:'Metas do mês (sem plantar)',en:'',r:'Checklist livre',
+  items:['Chegar no andar 120 das Minas','Doar tudo que for novo no Museu',
+         'Subir 3 pretendentes pra 8 corações','Terminar os upgrades de ferramenta',
+         'Fechar o Conjunto Construção (madeira, pedra, madeira de lei)'],
+  rw:'Inverno é o mês de recuperar o atraso'},
+ {t:'Conjunto Construção',en:'Construction',r:'Sala de Artesanato',
+  items:['99 Madeira','99 Madeira','99 Pedra','10 Madeira de Lei <span class="en">(Hardwood)</span>'],
+  rw:'Sem plantação pra regar, sobra tempo pra cortar árvore'}]}
+};
+
+/* ===== gerador de estação para os Anos 2 e 3 =====
+   dias sem evento recebem a rotina padrão da estação */
+function mkEstacao(nome,hint,intro,plant,rotina,especiais,bundles){
+  const days=[];
+  for(let d=1;d<=28;d++){
+    const e=especiais[d];
+    days.push(e?{d,tag:e.tag||'',lab:e.lab,tasks:e.tasks||rotina,note:e.note||''}
+               :{d,tag:'',lab:'Rotina',tasks:rotina,note:''});
+  }
+  return {nome,hint,intro,plant,days,bundles};
+}
+
+const ANO2={
+primavera:mkEstacao('PRIMAVERA','Infraestrutura',
+ '<b>Objetivo do mês:</b> montar a máquina. Aspersores no lugar do regador, barris e jarras de conserva rodando, estufa cheia de cultura que rebrota. O Kent voltou e o Repolho Roxo finalmente está no Pierre.',
+ 'Com a estufa liberada, as janelas de plantio deixam de ser prisão: lá dentro nada morre na virada de estação. Ao ar livre valem os mesmos prazos do Ano 1:<ul>'+
+ '<li><b>Couve-flor</b> até o dia 16 · <b>Vagem</b> até o 18 · <b>Batata</b> até o 22 · <b>Chirívia</b> até o 24</li>'+
+ '<li><b>Morango</b> <span class="en">(Strawberry)</span> — se guardou sementes do Ano 1, plante no <b>dia 1</b>: rende 5 colheitas</li>'+
+ '<li>Na estufa, prefira <b>Fruta Antiga</b> ou <b>Café</b>: planta uma vez e colhe o ano inteiro</li></ul>',
+ ['Confira os aspersores e colha o que estiver pronto','Reabasteça barris e jarras de conserva',
+  'Minas ou Caverna da Caveira','Fale com 3 aldeões e dê 1 presente'],
+ {1:{tag:'key',lab:'Kent voltou',tasks:[
+     'Kent voltou da guerra — agora mora com a Jodi e o Vincent',
+     'Compre Sementes de Repolho Roxo no Armazém do Pierre (liberadas a partir do Ano 2)',
+     'Plante a estufa com cultura que rebrota: Fruta Antiga, Café ou Morango',
+     'Encha o campo ao ar livre e ligue os aspersores'],
+    note:'Se o Repolho Roxo escapou de você no Ano 1, o problema acabou hoje: o Pierre passa a vender as sementes por 100 ouros.'},
+  4:{tag:'bday',lab:'Aniv. Kent',tasks:['Rotina da fazenda','Presente pro Kent — este ano ele está na cidade','Minas'],
+    note:'Foi o único aniversário impossível do Ano 1. Aproveite.'},
+  7:{tag:'bday',lab:'Aniv. Lewis'},
+  10:{tag:'bday',lab:'Aniv. Vincent · Pierre fechado'},
+  13:{tag:'festival',lab:'Festival do Ovo',tasks:[
+     'Praça da Vila Pelicanos, 9h às 14h',
+     'Ganhe a caça aos ovos de novo — no Ano 2 o prêmio vira Bilhete de Prêmio',
+     'Compre sementes de Morango pra estufa: lá elas rendem o ano todo'],
+    note:'O Chapéu de Palha só sai na primeira vitória. Da segunda em diante o prêmio é Bilhete de Prêmio.'},
+  14:{tag:'bday',lab:'Aniv. Haley'},
+  15:{tag:'key',lab:'Festival do Deserto (15–17)',tasks:[
+     'Com o ônibus consertado, o Deserto está aberto — o festival roda das 10h às 2h',
+     'Corridas pra apostar, desafios que dão moeda do evento e lojas rotativas',
+     'A Emily entrega uma roupa nova por dia',
+     'Temporada de Amora-silvestre começa hoje e vai até o dia 18'],
+    note:'Este é o festival que você não conseguiu ver no Ano 1: ele exige o ônibus, que sai dos conjuntos do Cofre.'},
+  17:{tag:'',lab:'Deserto · Pote de Ouro',tasks:[
+     'Último dia do Festival do Deserto','Pote de Ouro na Floresta Cinzaseiva','Colete Amora-silvestre']},
+  18:{tag:'bday',lab:'Aniv. Pam'},
+  20:{tag:'bday',lab:'Aniv. Shane'},
+  24:{tag:'festival',lab:'Dança das Flores',tasks:[
+     'Floresta Cinzaseiva, 9h às 14h',
+     'Dançar dá 1 coração inteiro — use com quem estiver perto dos 8 corações',
+     'Compre Narciso e Dente-de-leão se ainda faltarem']},
+  26:{tag:'bday',lab:'Aniv. Pierre'},
+  27:{tag:'bday',lab:'Aniv. Emily'},
+  28:{tag:'key',lab:'Fim da Primavera',tasks:[
+     'Colha tudo ao ar livre','Compre sementes de Verão (Mirtilo e Lúpulo em quantidade)',
+     'Deixe barris e jarras cheios antes de dormir']}},
+ [{t:'Metas da estação',en:'',r:'Ano 2 · Primavera',
+   items:['Aspersores de qualidade cobrindo o campo todo','Estufa plantada com cultura que rebrota',
+          '10+ barris rodando','Repolho Roxo comprado e plantado','Sala de Artesanato e Copa fechadas'],
+   rw:'Infraestrutura agora = dinheiro no Verão'},
+  {t:'Amizade — meta do vovô',en:'',r:'2 pontos em jogo',
+   items:['5 aldeões em 8 corações','10 aldeões em 8 corações'],
+   rw:'Comece agora: 8 corações levam meses de presente'},
+  {t:'Chaves — 2 pontos',en:'',r:'Minas e Museu',
+   items:['Chave da Caveira: andar 120 das Minas','Chave Enferrujada: 60 doações no Museu'],
+   rw:'Cada uma vale 1 ponto na avaliação'}]),
+
+verao:mkEstacao('VERÃO','Dinheiro grande',
+ '<b>Objetivo do mês:</b> Mirtilo e Lúpulo em escala, e o barco do Willy consertado pra abrir a Ilha Gengibre. É o mês que decide se você bate os 500.000 ouros antes da avaliação.',
+ 'Mesmos prazos do Ano 1 ao ar livre:<ul>'+
+ '<li><b>Mirtilo</b> até o dia 15 · <b>Melão</b> até o 16 · <b>Tomate</b> e <b>Lúpulo</b> até o 17</li>'+
+ '<li><b>Repolho Roxo</b> até o 19 · <b>Pimenta Picante</b> até o 23 · <b>Trigo</b> até o 24</li>'+
+ '<li><b>Milho</b> até o dia 14 — e ele atravessa pro Outono sem morrer</li></ul>'+
+ '<br><b>Lúpulo</b> <span class="en">(Hops)</span> rebrota todo dia: vira Cerveja Pálida no barril e é uma das melhores rendas do jogo.',
+ ['Colha e reabasteça barris e jarras','Minas ou Caverna da Caveira atrás de irídio',
+  'Amizade: 1 presente por dia','Pesque à noite os peixes que ainda faltam'],
+ {1:{tag:'key',lab:'Mirtilo e lúpulo',tasks:[
+     'Plante o maior campo de Mirtilo que couber',
+     'Plante Lúpulo <span class="en">(Hops)</span> em quantidade — rebrota todo dia e vira Cerveja Pálida',
+     'Plante Milho: ele sobrevive até o Outono'],
+    note:'Mirtilo plantado hoje colhe nos dias 14, 18, 22 e 26.'},
+  4:{tag:'bday',lab:'Aniv. Jas'},
+  8:{tag:'bday',lab:'Aniv. Gus'},
+  10:{tag:'bday',lab:'Aniv. Maru · Pierre fechado'},
+  11:{tag:'festival',lab:'Luau',tasks:[
+     'Praia, 9h às 14h',
+     'Coloque na sopa um item de qualidade irídio — a reação do Governador sobe a amizade com a cidade inteira',
+     'Fale com todo mundo antes de encerrar']},
+  13:{tag:'bday',lab:'Aniv. Alex'},
+  15:{tag:'key',lab:'Barco do Willy',tasks:[
+     'Com o Centro Comunitário pronto, vá à Loja de Peixes e fale com o Willy sobre o barco',
+     'Casco: 200 Madeira de Lei <span class="en">(Hardwood)</span>',
+     'Âncora: 5 Barras de Irídio','Bilheteria: 5 Baterias <span class="en">(Battery Pack)</span>'],
+    note:'Consertar os três abre a Ilha Gengibre. Baterias vêm de Para-raios; irídio, da Caverna da Caveira.'},
+  17:{tag:'bday',lab:'Aniv. Sam'},
+  19:{tag:'bday',lab:'Aniv. Demetrius'},
+  20:{tag:'festival',lab:'Competição de Truta (20–21)',tasks:[
+     'Rio da Floresta Cinzaseiva, das 6h10 às 2h — o tempo passa normalmente',
+     'Pesque Truta Arco-íris atrás das Etiquetas Douradas',
+     'Faça as tarefas da fazenda no mesmo dia: as lojas ficam abertas']},
+  21:{tag:'festival',lab:'Competição de Truta — dia 2'},
+  22:{tag:'bday',lab:'Aniv. Anão',tasks:['Rotina da fazenda','Presente pro Anão','Caverna da Caveira'],
+     note:'Precisa do Guia de Tradução Anão decifrado no Museu pra conversar com ele.'},
+  24:{tag:'bday',lab:'Aniv. Willy'},
+  26:{tag:'bday',lab:'Aniv. Leo',tasks:[
+     'Rotina da fazenda','Com a Ilha Gengibre aberta, procure o Leo por lá','Presente pro Leo'],
+     note:'O Leo mora na ilha. Depois de alguns eventos de amizade ele se muda pro vale.'},
+  28:{tag:'festival',lab:'Dança das Medusas-da-Lua',tasks:[
+     'De dia: colha tudo (milho, girassol e trigo atravessam)',
+     'Compre sementes de Outono','Praia entre 22h e 24h']}},
+ [{t:'Metas da estação',en:'',r:'Ano 2 · Verão',
+   items:['Barco do Willy consertado','Primeira viagem à Ilha Gengibre',
+          'Cerimônia do Centro Comunitário assistida','300.000 ouros acumulados no total'],
+   rw:'A cerimônia sozinha vale 2 pontos com o vovô'},
+  {t:'Cinema',en:'Movie Theater',r:'Depois do Centro Comunitário',
+   items:['Esperar o raio cair na JojaMart abandonada (1º dia de chuva)','Entrar e completar o Conjunto Perdido',
+          'Junimos constroem o Cinema na noite seguinte'],
+   rw:'Ingresso de cinema é presente universalmente amado'},
+  {t:'Peixes desta estação',en:'',r:'Aquário',
+   items:['Baiacu <span class="en">(Pufferfish)</span>','Esturjão <span class="en">(Sturgeon)</span>',
+          'Atum <span class="en">(Tuna)</span>','Cioba <span class="en">(Red Snapper)</span>',
+          'Tilápia <span class="en">(Tilapia)</span>'],
+   rw:'Master Angler vale 1 ponto — comece a caçar os que faltam'}]),
+
+outono:mkEstacao('OUTONO','Escala',
+ '<b>Objetivo do mês:</b> Oxicoco e Abóbora em escala industrial, Feira com itens irídio e o Museu chegando perto do fim. Faltando um mês e meio pra avaliação, é hora de contar pontos.',
+ 'Mesmos prazos do Ano 1:<ul>'+
+ '<li><b>Cereja de Joia Doce</b> até o dia 4 — vende por 3.000 ouros, plante várias</li>'+
+ '<li><b>Abóbora</b> até o 15 · <b>Inhame</b> e <b>Uva</b> até o 18 · <b>Oxicoco</b> até o 21</li>'+
+ '<li><b>Berinjela</b> até o 23 · <b>Trigo</b> e <b>Acelga Chinesa</b> até o 24</li></ul>',
+ ['Colha e transforme em artesanais (vinho e conserva pagam muito mais)',
+  'Museu: doe tudo que for novo','Amizade: 1 presente por dia','Caverna da Caveira atrás de irídio'],
+ {1:{tag:'key',lab:'Oxicoco e abóbora',tasks:[
+     'Plante Oxicoco em escala — rebrota a cada 5 dias, 2 frutas por colheita',
+     'Plante Abóbora: conjunto, Feira e vinho',
+     'Se comprou Cereja de Joia Doce no Carrinho, plante nos próximos 4 dias']},
+  2:{tag:'bday',lab:'Aniv. Penny'},
+  4:{tag:'key',lab:'Último: Cereja de Joia Doce'},
+  5:{tag:'bday',lab:'Aniv. Elliott'},
+  8:{tag:'key',lab:'Temporada de Amora (8–11)',tasks:[
+     'Bata nos arbustos pelo mapa até o dia 11','Colha o oxicoco','Museu e amizade']},
+  11:{tag:'bday',lab:'Aniv. Jodi · Último dia de Amora'},
+  13:{tag:'bday',lab:'Aniv. Abigail'},
+  15:{tag:'bday',lab:'Aniv. Sandy',tasks:[
+     'Rotina da fazenda','Pegue o ônibus e presenteie a Sandy no Oásis',
+     'Separe seus 9 melhores itens pra Exposição de amanhã']},
+  16:{tag:'festival',lab:'Feira do Vale do Orvalho',tasks:[
+     'Vila Pelicanos, 9h às 15h',
+     'Exposição com 9 itens de qualidade irídio e categorias variadas',
+     'Troque as Fichas Estrela por Espantalhos Raros e itens que você ainda não enviou'],
+    note:'Os itens voltam pra você, mas não sozinhos — se esquecer, procure nos achados e perdidos da Prefeitura.'},
+  18:{tag:'bday',lab:'Aniv. Marnie · Último: inhame e uva'},
+  21:{tag:'bday',lab:'Aniv. Robin · Último: oxicoco'},
+  24:{tag:'bday',lab:'Aniv. George · Último: trigo'},
+  27:{tag:'festival',lab:'Véspera dos Espíritos',tasks:[
+     'De dia: rotina normal','Vila Pelicanos entre 22h e 23h50','Faça o labirinto'],
+    note:'O Ano 2 é ano par: o prêmio do labirinto é um Bilhete de Prêmio, não a Abóbora Dourada. A abóbora só volta no Ano 3.'},
+  28:{tag:'key',lab:'Fim do Outono',tasks:[
+     'Colha TUDO ao ar livre — nada atravessa pro Inverno',
+     'Encha barris e jarras: eles trabalham durante o inverno inteiro',
+     'Estoque comida e iscas']}},
+ [{t:'Metas da estação',en:'',r:'Ano 2 · Outono',
+   items:['Museu completo (1 ponto)','500.000 ouros acumulados','30 níveis somados nas habilidades',
+          'Casamento marcado ou feito'],
+   rw:'Faltam 2 estações pra avaliação'},
+  {t:'Casa — 1 ponto',en:'',r:'Robin',
+   items:['1ª reforma: cozinha (10.000 ouros + 450 madeira)','2ª reforma: quarto de criança','Casado(a)'],
+   rw:'Casado + 2 reformas = 1 ponto com o vovô'},
+  {t:'Bicho de estimação — 1 ponto',en:'',r:'Tigela d\'água',
+   items:['Encher a tigela do bicho todo dia','Fazer carinho todo dia','Chegar em ~5 corações'],
+   rw:'É 1 ponto inteiro por um gesto de 2 segundos por dia'}]),
+
+inverno:mkEstacao('INVERNO','Contagem regressiva',
+ '<b>Objetivo do mês:</b> fechar o placar. Faltam 28 dias pra avaliação do vovô — abra a aba do Ano 3 e veja quais dos 21 pontos ainda dá pra pegar antes do dia 1.',
+ '<b>Nada cresce ao ar livre.</b> Mas a estufa e a Ilha Gengibre produzem normalmente o inverno inteiro. Ao ar livre só:<ul>'+
+ '<li><b>Melão-Poeiro</b> <span class="en">(Powdermelon)</span> — 7 dias</li>'+
+ '<li><b>Sementes de Inverno</b> e <b>Sementes de Fibra</b></li></ul>',
+ ['Caverna da Caveira atrás de irídio e ouro','Museu: doe tudo que for novo',
+  'Amizade: 1 presente por dia nas casas que faltam','Pesque os peixes que ainda faltam'],
+ {1:{tag:'key',lab:'Faltam 28 dias',tasks:[
+     'Abra o placar do vovô (aba Ano 3) e marque o que já está feito',
+     'Liste os pontos que ainda dá pra fechar em 28 dias',
+     'Priorize: amizade e ouro são os que mais demoram'],
+    note:'Ouro acumulado é o total que você já ganhou na vida, não o que está no bolso. Vender estoque parado conta.'},
+  3:{tag:'bday',lab:'Aniv. Linus'},
+  7:{tag:'bday',lab:'Aniv. Caroline'},
+  8:{tag:'festival',lab:'Festival do Gelo',tasks:[
+     'Floresta Cinzaseiva, 9h às 14h','Concurso de pesca no gelo: 5 peixes pra ganhar',
+     'Fale com todo mundo — amizade grátis']},
+  10:{tag:'bday',lab:'Aniv. Sebastian'},
+  12:{tag:'festival',lab:'Festival da Lula (12–13)',tasks:[
+     'Praia, das 6h10 às 2h','8 Lulas hoje pra levar todos os prêmios do dia 1','Leve comida']},
+  13:{tag:'festival',lab:'Festival da Lula — dia 2',tasks:['10 Lulas hoje pra levar todos os prêmios do dia 2']},
+  14:{tag:'bday',lab:'Aniv. Harvey'},
+  15:{tag:'key',lab:'Mercado Noturno (15–17)',tasks:[
+     'Praia, das 17h às 2h','Submarino de pesca profunda: peixes que só existem aqui',
+     'Loja de sementes raras e o show da sereia'],
+    note:'Os peixes do submarino contam pro Master Angler, que vale 1 ponto.'},
+  17:{tag:'bday',lab:'Aniv. Feiticeiro · Mercado (último dia)'},
+  18:{tag:'key',lab:'Carta do amigo secreto',tasks:[
+     'Leia a carta do Lewis','Providencie um presente amado pra pessoa sorteada']},
+  20:{tag:'bday',lab:'Aniv. Evelyn'},
+  23:{tag:'bday',lab:'Aniv. Leah'},
+  25:{tag:'festival',lab:'Festival da Estrela Invernal',tasks:[
+     'Vila Pelicanos, 9h às 14h','Entregue o presente da carta do dia 18','Fale com todos']},
+  26:{tag:'bday',lab:'Aniv. Clint'},
+  28:{tag:'key',lab:'Véspera da avaliação',tasks:[
+     'Última chance: venda todo o estoque parado pra empurrar o ouro acumulado',
+     'Última chance: entregue presentes pra fechar os 8 corações que faltam',
+     'Confirme Chave da Caveira e Chave Enferrujada no inventário',
+     'Durma. Amanhã o vovô aparece'],
+    note:'Perdeu algum ponto? Não é o fim: um Diamante no santuário refaz a avaliação a qualquer momento.'}},
+ [{t:'Metas da estação',en:'',r:'Ano 2 · Inverno',
+   items:['Museu completo','Chave da Caveira no inventário','Chave Enferrujada no inventário',
+          '10 aldeões em 8 corações','Casado(a) com 2 reformas na casa','Bicho em 5 corações'],
+   rw:'Tudo isso é ponto direto no placar'},
+  {t:'Peixes desta estação',en:'',r:'Aquário',
+   items:['Salmão Híbrido <span class="en">(Tiger Trout)</span>','Esturjão <span class="en">(Sturgeon)</span>',
+          'Lula <span class="en">(Squid)</span>','Peixes do submarino do Mercado Noturno'],
+   rw:'Inverno tem peixes que não existem em nenhuma outra estação'}])
+};
+
+const ANO3={
+primavera:mkEstacao('PRIMAVERA','A avaliação',
+ '<b>Dia 1:</b> o vovô aparece no santuário, no canto noroeste da fazenda. Vá lá e converse com ele. Com 12 pontos ou mais você leva a Estátua da Perfeição, que solta 2 a 8 Minérios de Irídio por dia.',
+ 'Sem prazo apertado: a estufa e a Ilha Gengibre resolvem o que a estação não deixa plantar. Ao ar livre valem os mesmos limites do Ano 1.<br><br>'+
+ 'A partir daqui o jogo vira coleção: <b>Museu completo</b>, <b>todos os peixes</b> e <b>todos os itens enviados</b> são os três pontos mais difíceis do placar.',
+ ['Estufa e Ilha Gengibre rodando','Caçar os peixes que ainda faltam',
+  'Enviar pelo menos um item novo por dia','Museu e amizade'],
+ {1:{tag:'key',lab:'O vovô aparece',tasks:[
+     'Vá ao santuário no canto noroeste da fazenda e converse com o vovô',
+     'Conte as velas acesas: 1, 2, 3 ou 4',
+     'Com 12+ pontos, interaja com o santuário pra pegar a Estátua da Perfeição'],
+    note:'A estátua não é anunciada. Você precisa interagir com o santuário manualmente pra recebê-la.'},
+  4:{tag:'bday',lab:'Aniv. Kent'},
+  7:{tag:'bday',lab:'Aniv. Lewis'},
+  10:{tag:'bday',lab:'Aniv. Vincent'},
+  13:{tag:'festival',lab:'Festival do Ovo'},
+  14:{tag:'bday',lab:'Aniv. Haley'},
+  15:{tag:'key',lab:'Festival do Deserto (15–17)',tasks:[
+     'Deserto, das 10h às 2h','Desafios do evento dão itens que você talvez ainda não enviou',
+     'Temporada de Amora-silvestre até o dia 18']},
+  18:{tag:'bday',lab:'Aniv. Pam'},
+  20:{tag:'bday',lab:'Aniv. Shane'},
+  24:{tag:'festival',lab:'Dança das Flores'},
+  26:{tag:'bday',lab:'Aniv. Pierre'},
+  27:{tag:'bday',lab:'Aniv. Emily'},
+  28:{tag:'key',lab:'Fim da Primavera',tasks:[
+     'Colha tudo ao ar livre','Confira quais itens de primavera ainda faltam no envio']}},
+ [{t:'Depois da avaliação',en:'',r:'Ano 3 · Primavera',
+   items:['Estátua da Perfeição recebida (12+ pontos)','Diamante guardado pra pedir reavaliação',
+          'Ilha Gengibre explorada: fazenda, vulcão, nogueiras'],
+   rw:'Um Diamante no santuário refaz a avaliação quando quiser'},
+  {t:'Coleção completa',en:'A Complete Collection',r:'1 ponto · Museu',
+   items:['95 itens doados no Museu','Todos os minerais','Todos os artefatos'],
+   rw:'Geodos e pontos de artefato são o caminho'}]),
+
+verao:mkEstacao('VERÃO','Coleção',
+ '<b>Objetivo do mês:</b> os três pontos de conquista — Museu completo, todos os peixes e todos os itens enviados. São os que mais demoram e os que sobram quando o resto já está fechado.',
+ 'Verão é a única estação de vários peixes (Baiacu, Atum, Esturjão) e da Concha do Arco-Íris na praia. Se falta item de verão no envio, é agora.',
+ ['Enviar itens novos','Pescar o que falta na lista','Ilha Gengibre e vulcão','Amizade e Museu'],
+ {4:{tag:'bday',lab:'Aniv. Jas'},
+  8:{tag:'bday',lab:'Aniv. Gus'},
+  10:{tag:'bday',lab:'Aniv. Maru · Pierre fechado'},
+  11:{tag:'festival',lab:'Luau'},
+  12:{tag:'key',lab:'Coleta extra na praia (12–14)'},
+  13:{tag:'bday',lab:'Aniv. Alex'},
+  17:{tag:'bday',lab:'Aniv. Sam'},
+  19:{tag:'bday',lab:'Aniv. Demetrius'},
+  20:{tag:'festival',lab:'Competição de Truta (20–21)'},
+  21:{tag:'festival',lab:'Competição de Truta — dia 2'},
+  22:{tag:'bday',lab:'Aniv. Anão'},
+  24:{tag:'bday',lab:'Aniv. Willy'},
+  26:{tag:'bday',lab:'Aniv. Leo'},
+  28:{tag:'festival',lab:'Dança das Medusas-da-Lua'}},
+ [{t:'Mestre Pescador',en:'Master Angler',r:'1 ponto',
+   items:['Todos os peixes de rio, lago e oceano','Peixes das Minas e da Caverna da Caveira',
+          'Peixes do Mercado Noturno','Peixes da Ilha Gengibre e do vulcão'],
+   rw:'Isca Mágica ignora estação e hora — resolve os peixes teimosos'},
+  {t:'Carregamento completo',en:'Full Shipment',r:'1 ponto',
+   items:['Todas as plantações','Todos os peixes e frutos do mar','Todos os artesanais',
+          'Todos os coletáveis e minerais'],
+   rw:'A tela de coleção mostra o que ainda falta'}]),
+
+outono:mkEstacao('OUTONO','Dinheiro e níveis',
+ '<b>Objetivo do mês:</b> se o placar ainda não fechou, este é o mês de dinheiro — vinho envelhecido em barril de carvalho e Cereja de Joia Doce empurram o ouro acumulado até o milhão, que sozinho vale 2 pontos.',
+ 'Cereja de Joia Doce até o dia 4 · Abóbora até o 15 · Oxicoco até o 21. Vinho de qualquer fruta em barril de carvalho por 2 estações multiplica o valor.',
+ ['Colher e transformar em vinho e conserva','Enviar itens novos','Amizade e Museu','Ilha Gengibre'],
+ {2:{tag:'bday',lab:'Aniv. Penny'},
+  4:{tag:'key',lab:'Último: Cereja de Joia Doce'},
+  5:{tag:'bday',lab:'Aniv. Elliott'},
+  8:{tag:'key',lab:'Temporada de Amora (8–11)'},
+  11:{tag:'bday',lab:'Aniv. Jodi'},
+  13:{tag:'bday',lab:'Aniv. Abigail'},
+  15:{tag:'bday',lab:'Aniv. Sandy'},
+  16:{tag:'festival',lab:'Feira do Vale do Orvalho'},
+  18:{tag:'bday',lab:'Aniv. Marnie'},
+  21:{tag:'bday',lab:'Aniv. Robin'},
+  24:{tag:'bday',lab:'Aniv. George'},
+  27:{tag:'festival',lab:'Véspera dos Espíritos',tasks:[
+     'Vila Pelicanos entre 22h e 23h50','Faça o labirinto'],
+    note:'Ano 3 é ano ímpar: a Abóbora Dourada volta a ser o prêmio do labirinto.'},
+  28:{tag:'key',lab:'Fim do Outono',tasks:['Colha tudo ao ar livre','Encha todos os barris antes do inverno']}},
+ [{t:'Um milhão de ouros',en:'',r:'2 pontos',
+   items:['50.000','100.000','200.000','300.000','500.000','1.000.000 (vale 2 pontos)'],
+   rw:'7 dos 21 pontos vêm só de ouro acumulado'},
+  {t:'Níveis de habilidade',en:'',r:'2 pontos',
+   items:['30 níveis somados','50 níveis somados (nível 10 em todas as 5)'],
+   rw:'Cultivo, Mineração, Coleta, Pesca e Combate'}]),
+
+inverno:mkEstacao('INVERNO','Fechamento',
+ '<b>Objetivo do mês:</b> fechar o que sobrou. Sem plantio ao ar livre, o inverno inteiro é Caverna da Caveira, Museu, pesca e amizade — exatamente os pontos que costumam ficar por último.',
+ '<b>Nada cresce ao ar livre</b>, mas estufa e Ilha Gengibre produzem normal. Aproveite os dias vazios pra caçar peixes de inverno e artefatos arando a terra.',
+ ['Caverna da Caveira atrás de irídio','Pescar o que falta','Museu e envio de itens novos','Amizade'],
+ {3:{tag:'bday',lab:'Aniv. Linus'},
+  7:{tag:'bday',lab:'Aniv. Caroline'},
+  8:{tag:'festival',lab:'Festival do Gelo'},
+  10:{tag:'bday',lab:'Aniv. Sebastian'},
+  12:{tag:'festival',lab:'Festival da Lula (12–13)'},
+  13:{tag:'festival',lab:'Festival da Lula — dia 2'},
+  14:{tag:'bday',lab:'Aniv. Harvey'},
+  15:{tag:'key',lab:'Mercado Noturno (15–17)',tasks:[
+     'Praia, das 17h às 2h','Submarino: peixes exclusivos que contam pro Mestre Pescador',
+     'Loja de sementes raras']},
+  17:{tag:'bday',lab:'Aniv. Feiticeiro'},
+  18:{tag:'key',lab:'Carta do amigo secreto'},
+  20:{tag:'bday',lab:'Aniv. Evelyn'},
+  23:{tag:'bday',lab:'Aniv. Leah'},
+  25:{tag:'festival',lab:'Festival da Estrela Invernal'},
+  26:{tag:'bday',lab:'Aniv. Clint'},
+  28:{tag:'key',lab:'Fim do Ano 3',tasks:[
+     'Reabra o placar do vovô e veja quantos pontos você tem agora',
+     'Faltou alguma vela? Coloque um Diamante no santuário pra ser reavaliado',
+     'Daqui pra frente o jogo não tem prazo — só o que você quiser perseguir'],
+    note:'A avaliação pode ser refeita quantas vezes quiser. As 4 velas nunca ficam fora de alcance.'}},
+ [{t:'Últimos pontos',en:'',r:'Ano 3 · Inverno',
+   items:['Museu completo','Mestre Pescador','Carregamento completo','1.000.000 de ouros','50 níveis de habilidade'],
+   rw:'Com esses, o placar bate 21/21'},
+  {t:'Reavaliação',en:'',r:'Santuário do vovô',
+   items:['Diamante no inventário','Diamante colocado no santuário','Vovô reaparece no dia seguinte'],
+   rw:'Sem limite de vezes'}])
+};
+
+const PLACAR=[
+ {t:'Ouro acumulado',r:'7 pontos no total',items:[
+   ['50.000 ouros',1],['100.000 ouros',1],['200.000 ouros',1],
+   ['300.000 ouros',1],['500.000 ouros',1],['1.000.000 de ouros',2]]},
+ {t:'Habilidades',r:'2 pontos',items:[
+   ['30 níveis somados',1],['50 níveis somados (10 em todas)',1]]},
+ {t:'Conquistas',r:'3 pontos',items:[
+   ['Museu completo',1],['Mestre Pescador — todos os peixes',1],['Carregamento completo — todos os itens',1]]},
+ {t:'Amizade',r:'4 pontos',items:[
+   ['Casado(a) com 2 reformas na casa',1],['5 aldeões em 8 corações',1],
+   ['10 aldeões em 8 corações',1],['Bicho de estimação em ~5 corações',1]]},
+ {t:'Marcos',r:'5 pontos',items:[
+   ['Centro Comunitário completo',1],['Cerimônia de reabertura assistida',2],
+   ['Chave da Caveira — andar 120 das Minas',1],['Chave Enferrujada — 60 doações no Museu',1]]}
+];
+
+const ANOS={a1:{nome:'Ano 1',hint:'Centro Comunitário',est:ANO1},
+            a2:{nome:'Ano 2',hint:'Expansão',est:ANO2},
+            a3:{nome:'Ano 3',hint:'Avaliação',est:ANO3}};
+const YORDER=['a1','a2','a3'];
+const ORDER=['primavera','verao','outono','inverno'];
+let ano='a1', cur='primavera', sel=1;
+let modo=(function(){try{return localStorage.getItem('sdv-modo')||'detalhado'}catch(e){return 'detalhado'}})();
+const RE_EN=/\s*<span class="en">.*?<\/span>/g;
+const clean = t => modo==='simples' ? t.replace(RE_EN,'') : t;
+
+const $=id=>document.getElementById(id);
+function tid(y,s,d,i){return y+'_'+s+'_d'+d+'_'+i}
+function bid(y,s,b,i){return y+'_'+s+'_b'+b+'_'+i}
+function pid(g,i){return 'p_'+g+'_'+i}
+function dayDone(y,s,day){return day.tasks.every((_,i)=>state[tid(y,s,day.d,i)])}
+
+function renderModes(){
+  const el=$('modes');
+  el.innerHTML='<span class="lbl">Modo de leitura</span>';
+  [['simples','Simples'],['detalhado','Detalhado']].forEach(function(o){
+    const b=document.createElement('button');
+    b.className='mode'+(modo===o[0]?' on':'');
+    b.textContent=o[1];
+    b.onclick=function(){modo=o[0];try{localStorage.setItem('sdv-modo',o[0])}catch(e){};renderAll()};
+    el.appendChild(b);
+  });
+  document.body.classList.toggle('simples', modo==='simples');
+}
+function renderYears(){
+  const t=$('years'); t.innerHTML='';
+  YORDER.forEach(k=>{
+    const b=document.createElement('button');
+    b.className='year'+(ano===k?' on':'');
+    b.innerHTML=ANOS[k].nome+'<small>'+ANOS[k].hint+'</small>';
+    b.onclick=()=>{ano=k;sel=1;renderAll()};
+    t.appendChild(b);
+  });
+}
+function renderTabs(){
+  const t=$('tabs'); t.innerHTML='';
+  ORDER.forEach(k=>{
+    const s=ANOS[ano].est[k];
+    const b=document.createElement('button');
+    b.className='tab'+(cur===k?' on':'');
+    b.innerHTML=s.nome+'<small>'+s.hint+'</small>';
+    b.onclick=()=>{cur=k;sel=1;renderAll()};
+    t.appendChild(b);
+  });
+}
+function renderCal(){
+  const s=ANOS[ano].est[cur], cal=$('cal');
+  cal.innerHTML='';
+  s.days.forEach(day=>{
+    const b=document.createElement('button');
+    b.className='day '+(day.tag||'')+(dayDone(ano,cur,day)?' done':'')+(sel===day.d?' sel':'');
+    b.innerHTML='<span class="n">'+day.d+'</span><span class="t">'+((modo==='simples'&&!day.tag)?'':day.lab)+'</span><span class="dot"></span>';
+    b.onclick=()=>{sel=day.d;renderCal();renderDetail()};
+    cal.appendChild(b);
+  });
+}
+function renderDetail(){
+  const s=ANOS[ano].est[cur], day=s.days.find(x=>x.d===sel);
+  const dows=['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
+  const badge=day.tag?'<span class="badge '+day.tag+'">'+
+    (day.tag==='festival'?'Festival':day.tag==='bday'?'Aniversário':'Marco')+'</span>':'';
+  let h='<h3>'+ANOS[ano].nome+' · '+s.nome+' · dia '+day.d+badge+'</h3>'+
+        '<p class="meta">'+day.lab+' — '+dows[(day.d-1)%7]+'</p>';
+  day.tasks.forEach((t,i)=>{
+    const id=tid(ano,cur,day.d,i);
+    h+='<label class="task"><input type="checkbox" data-k="'+id+'"'+(state[id]?' checked':'')+
+       '><span>'+clean(t)+'</span></label>';
+  });
+  if(day.note && modo!=='simples') h+='<div class="note">'+day.note+'</div>';
+  $('detail').innerHTML=h;
+  $('detail').querySelectorAll('input').forEach(inp=>{
+    inp.onchange=()=>{state[inp.dataset.k]=inp.checked;save();renderCal();renderProgress()};
+  });
+}
+function renderBundles(){
+  const s=ANOS[ano].est[cur], el=$('bundles');
+  $('bundlesTitle').textContent='Metas — '+ANOS[ano].nome+' · '+s.nome;
+  el.innerHTML='';
+  s.bundles.forEach((b,bi)=>{
+    const d=document.createElement('div');
+    d.className='bundle';
+    let h='<h4>'+b.t+'</h4><p class="rm">'+(b.en?b.en+' · ':'')+b.r+'</p>';
+    b.items.forEach((it,i)=>{
+      const id=bid(ano,cur,bi,i);
+      h+='<label class="task"><input type="checkbox" data-k="'+id+'"'+(state[id]?' checked':'')+
+         '><span>'+clean(it)+'</span></label>';
+    });
+    h+='<div class="rw">'+b.rw+'</div>';
+    d.innerHTML=h;
+    el.appendChild(d);
+  });
+  el.querySelectorAll('input').forEach(inp=>{
+    inp.onchange=()=>{state[inp.dataset.k]=inp.checked;save();renderProgress()};
+  });
+}
+function renderPlacar(){
+  const wrap=$('placarWrap');
+  if(ano!=='a3'){wrap.style.display='none';return}
+  wrap.style.display='block';
+  const el=$('placar'); el.innerHTML='';
+  PLACAR.forEach((g,gi)=>{
+    const d=document.createElement('div');
+    d.className='bundle';
+    let h='<h4>'+g.t+'</h4><p class="rm">'+g.r+'</p>';
+    g.items.forEach((it,i)=>{
+      const id=pid(gi,i);
+      h+='<label class="task"><input type="checkbox" data-k="'+id+'"'+(state[id]?' checked':'')+
+         '><span>'+it[0]+' <span class="en">+'+it[1]+'</span></span></label>';
+    });
+    d.innerHTML=h;
+    el.appendChild(d);
+  });
+  el.querySelectorAll('input').forEach(inp=>{
+    inp.onchange=()=>{state[inp.dataset.k]=inp.checked;save();scorePlacar();renderProgress()};
+  });
+  scorePlacar();
+}
+function scorePlacar(){
+  let p=0;
+  PLACAR.forEach((g,gi)=>g.items.forEach((it,i)=>{if(state[pid(gi,i)])p+=it[1]}));
+  const v = p>=12?4 : p>=8?3 : p>=4?2 : 1;
+  $('pontos').textContent=p;
+  $('velasTxt').textContent=v+(v===1?' vela acesa':' velas acesas')+' · '+p+' de 21 pontos';
+  $('candles').querySelectorAll('span').forEach((s,i)=>s.className=i<v?'on':'');
+}
+function renderProgress(){
+  let tS=0,dS=0,tT=0,dT=0;
+  YORDER.forEach(y=>ORDER.forEach(k=>{
+    const s=ANOS[y].est[k];
+    s.days.forEach(day=>day.tasks.forEach((_,i)=>{
+      tT++; const on=!!state[tid(y,k,day.d,i)]; if(on)dT++;
+      if(y===ano&&k===cur){tS++; if(on)dS++}
+    }));
+    s.bundles.forEach((b,bi)=>b.items.forEach((_,i)=>{
+      tT++; const on=!!state[bid(y,k,bi,i)]; if(on)dT++;
+      if(y===ano&&k===cur){tS++; if(on)dS++}
+    }));
+  }));
+  $('fill').style.width=(tT?dT/tT*100:0)+'%';
+  $('pct').textContent=ANOS[ano].est[cur].nome.toLowerCase()+' '+dS+'/'+tS+' · total '+dT+'/'+tT;
+}
+function renderAll(){
+  renderModes();renderYears();renderTabs();
+  $('intro').innerHTML=ANOS[ano].est[cur].intro;
+  $('plant').innerHTML=ANOS[ano].est[cur].plant;
+  renderCal();renderDetail();renderBundles();renderPlacar();renderProgress();
+}
+$('reset').onclick=()=>{state={};save();renderAll()};
+renderAll();
+</script>
+</body>
+</html>
