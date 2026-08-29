@@ -68,6 +68,11 @@ h1{font-size:26px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em;color:var
 .fill{height:100%;background:linear-gradient(90deg,var(--accent-line),var(--accent));width:0%;transition:width .25s}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;min-width:170px;
   text-align:right;color:var(--key)}
+.copias{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:-8px 0 16px}
+.copias .recado{font-size:14px;color:var(--accent);flex:1 1 100%}
+.copias .recado.erro{color:var(--fest)}
+.copias .recado:empty{display:none}
+
 /* em tela estreita a barra desce para a linha de baixo, inteira */
 @media (max-width:560px){
   .pct{order:1;flex:1 1 auto;min-width:0;text-align:left}
@@ -362,6 +367,13 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
     <div class="track"><div class="fill" id="fill"></div></div>
     <div class="pct" id="pct">0 / 0</div>
     <button class="reset" id="reset">Zerar tudo</button>
+  </div>
+
+  <div class="copias">
+    <button class="reset" id="exportar">Salvar cópia do progresso</button>
+    <button class="reset" id="importar">Restaurar de um arquivo</button>
+    <input type="file" id="arquivoProgresso" accept="application/json,.json" hidden>
+    <span class="recado" id="recadoCopia" role="status" aria-live="polite"></span>
   </div>
 
   <div class="intro" id="intro"></div>
@@ -1242,14 +1254,17 @@ function chaves(textos,prefixo){
   });
   return saida;
 }
+const CHAVES_VALIDAS={};
 function prepararChaves(){
+  const anota=function(ids){ids.forEach(function(k){CHAVES_VALIDAS[k]=true})};
   YORDER.forEach(function(y){ ORDER.forEach(function(s){
     const est=ANOS[y].est[s];
-    est.days.forEach(function(d){ d.ids=chaves(d.tasks, y+'_'+s+'_d'+d.d) });
-    est.bundles.forEach(function(b){ b.ids=chaves(b.items, y+'_'+s+'_b'+slug(b.t)) });
+    est.days.forEach(function(d){ d.ids=chaves(d.tasks, y+'_'+s+'_d'+d.d); anota(d.ids) });
+    est.bundles.forEach(function(b){ b.ids=chaves(b.items, y+'_'+s+'_b'+slug(b.t)); anota(b.ids) });
   })});
   PLACAR.forEach(function(g){
     g.ids=chaves(g.items.map(function(it){return it[0]}), 'p_'+slug(g.t));
+    anota(g.ids);
   });
 }
 /* Converte o progresso salvo no formato antigo, que dependia da posição.
@@ -1815,6 +1830,80 @@ document.addEventListener('keydown', function(e){
 
 prepararChaves();
 carregarProgresso();
+
+/* ---------- cópia do progresso ----------
+   O progresso mora no localStorage, que é de um aparelho só e some se você
+   limpar os dados do site. Estes dois botões põem tudo num arquivo e trazem
+   de volta — é também o jeito de levar do celular pro computador. */
+const APP='guia-stardew-valley';
+function recado(txt,erro){
+  const el=$('recadoCopia');
+  el.textContent=txt;
+  el.className='recado'+(erro?' erro':'');
+}
+function marcadas(obj){return Object.keys(obj).filter(function(k){return obj[k]}).length}
+
+$('exportar').onclick=function(){
+  const n=marcadas(state);
+  if(!n){recado('Não há nada marcado para salvar ainda.',1);return}
+  const hoje=new Date();
+  const dia=hoje.getFullYear()+'-'+
+            String(hoje.getMonth()+1).padStart(2,'0')+'-'+
+            String(hoje.getDate()).padStart(2,'0');
+  const pacote={app:APP, versao:2, salvoEm:hoje.toISOString(), marcacoes:state};
+  const blob=new Blob([JSON.stringify(pacote,null,1)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='guia-stardew-progresso-'+dia+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  recado(n+(n===1?' marcação salva':' marcações salvas')+' em guia-stardew-progresso-'+dia+'.json');
+};
+
+$('importar').onclick=function(){$('arquivoProgresso').click()};
+
+$('arquivoProgresso').onchange=function(e){
+  const arq=e.target.files && e.target.files[0];
+  e.target.value='';                 /* deixa reabrir o mesmo arquivo depois */
+  if(!arq) return;
+  const leitor=new FileReader();
+  leitor.onerror=function(){recado('Não consegui ler o arquivo.',1)};
+  leitor.onload=function(){
+    let pacote;
+    try{ pacote=JSON.parse(leitor.result) }
+    catch(err){ recado('Esse arquivo não é uma cópia do guia — não deu para ler o conteúdo.',1); return }
+    if(!pacote || typeof pacote!=='object' || pacote.app!==APP || !pacote.marcacoes ||
+       typeof pacote.marcacoes!=='object'){
+      recado('Esse arquivo não é uma cópia do guia.',1); return;
+    }
+    /* guarda só o que este guia ainda conhece: chave que não existe mais viraria
+       lixo silencioso e ia estragar as contagens do "Zerar tudo" e da própria cópia */
+    const vindas={};
+    let nVindas=0;
+    Object.keys(pacote.marcacoes).forEach(function(k){
+      if(!pacote.marcacoes[k]) return;
+      nVindas++;
+      if(CHAVES_VALIDAS[k]) vindas[k]=true;
+    });
+    const conhecidas=Object.keys(vindas).length, nAqui=marcadas(state);
+    if(!conhecidas){
+      recado('A cópia tem '+nVindas+' marcações, mas nenhuma bate com este guia. '+
+             'Deve ser de uma versão bem diferente — não mexi em nada.',1);
+      return;
+    }
+    const perdidas=nVindas-conhecidas;
+    if(!confirm('A cópia é de '+(pacote.salvoEm||'').slice(0,10)+' e tem '+nVindas+' marcações.'+
+                (perdidas?' '+perdidas+' não existem mais neste guia e vão ficar de fora.':'')+
+                '\n\nIsto substitui as '+nAqui+' marcações deste aparelho. Continuar?')) {
+      recado('Restauração cancelada — nada mudou.');
+      return;
+    }
+    state=vindas; save(); renderAll();
+    recado(conhecidas+(conhecidas===1?' marcação restaurada.':' marcações restauradas.')+
+           (perdidas?' '+perdidas+' ficaram de fora por não existirem mais no guia.':''));
+  };
+  leitor.readAsText(arq);
+};
 
 $('reset').onclick=()=>{
   const marcados=Object.keys(state).filter(k=>state[k]).length;
