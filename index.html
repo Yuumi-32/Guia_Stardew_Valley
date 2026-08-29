@@ -88,6 +88,17 @@ label.task input:checked + span{color:#6f6353;text-decoration:line-through}
 .note{margin-top:11px;padding:9px 12px;background:#1a1611;border-left:3px solid var(--key);
   border-radius:0 7px 7px 0;font-size:14.5px;color:#bfae92}
 
+.navdia{display:flex;align-items:center;gap:8px;margin-top:13px;padding-top:12px;
+  border-top:1px solid var(--line)}
+.navdia .nd{flex:1 1 0;min-width:0;background:var(--card-2);border:1px solid var(--line);
+  border-radius:8px;padding:9px 11px;cursor:pointer;font-family:inherit;font-size:15px;
+  color:var(--ink);transition:.14s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navdia .nd:hover{border-color:var(--accent-line);color:var(--accent)}
+.navdia .nd.ant{text-align:left} .navdia .nd.prox{text-align:right}
+.navdia .nd.vazia{cursor:default;color:#6f6353;background:transparent;border-color:transparent}
+.navdia .nd.vazia:hover{color:#6f6353}
+.navdia .pos{flex:0 0 auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
 .bundles{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:10px}
 .bundle{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
 .bundle h4{margin:0 0 1px;font-size:17px;font-weight:600}
@@ -1265,10 +1276,50 @@ function renderDetail(){
        '><span>'+clean(t)+'</span></label>';
   });
   if(day.note && modo!=='simples') h+='<div class="note">'+day.note+'</div>';
+  const ant=vizinho(-1), prox=vizinho(1);
+  h+='<div class="navdia">'+
+     botaoVizinho(ant,'ant','← ','começo do Ano 1')+
+     '<span class="pos">'+day.d+' / 28</span>'+
+     botaoVizinho(prox,'prox',' →','fim do Ano 3')+
+     '</div>';
   $('detail').innerHTML=h;
   $('detail').querySelectorAll('input').forEach(inp=>{
     inp.onchange=()=>{state[inp.dataset.k]=inp.checked;save();renderCal();renderProgress()};
   });
+  $('detail').querySelectorAll('.nd[data-p]').forEach(b=>{
+    b.onclick=()=>passoDia(parseInt(b.dataset.p,10));
+  });
+}
+/* o dia vizinho, virando a estação e o ano quando chega na ponta do mês */
+function vizinho(n){
+  const yi=YORDER.indexOf(ano), si=ORDER.indexOf(cur);
+  let d=sel+n, y=ano, s=cur;
+  if(d>28){
+    if(si<3) s=ORDER[si+1];
+    else if(yi<2){y=YORDER[yi+1];s=ORDER[0]}
+    else return null;
+    d=1;
+  } else if(d<1){
+    if(si>0) s=ORDER[si-1];
+    else if(yi>0){y=YORDER[yi-1];s=ORDER[3]}
+    else return null;
+    d=28;
+  }
+  return {y:y,s:s,d:d};
+}
+function botaoVizinho(v,cls,seta,fim){
+  if(!v) return '<span class="nd vazia '+cls+'">'+fim+'</span>';
+  const outroMes = v.y!==ano || v.s!==cur;
+  const nome = outroMes ? ANOS[v.y].est[v.s].nome+' '+v.d : 'dia '+v.d;
+  const titulo = outroMes ? ANOS[v.y].nome+' · '+ANOS[v.y].est[v.s].nome+' · dia '+v.d : 'Dia '+v.d;
+  return '<button class="nd '+cls+'" data-p="'+(cls==='ant'?-1:1)+'" title="'+titulo+'">'+
+         (cls==='ant'?seta+nome:nome+seta)+'</button>';
+}
+function passoDia(n){
+  const v=vizinho(n); if(!v) return;
+  const outroMes = v.y!==ano || v.s!==cur;
+  ano=v.y; cur=v.s;
+  if(outroMes){sel=v.d;renderAll()} else irParaDia(v.d);
 }
 function renderBundles(){
   const s=ANOS[ano].est[cur], el=$('bundles');
@@ -1655,6 +1706,16 @@ function renderFichaCultivo(){
   el.innerHTML=h;
 }
 renderCultTudo();
+
+/* setas do teclado andam de dia, menos quando você está digitando na busca */
+document.addEventListener('keydown', function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey||e.shiftKey) return;
+  if(document.body.classList.contains('aldeoes')||document.body.classList.contains('cultivos')) return;
+  const alvo=e.target.tagName;
+  if(alvo==='INPUT'||alvo==='TEXTAREA'||alvo==='SELECT') return;
+  if(e.key==='ArrowLeft'){e.preventDefault();passoDia(-1)}
+  else if(e.key==='ArrowRight'){e.preventDefault();passoDia(1)}
+});
 
 $('reset').onclick=()=>{state={};save();renderAll()};
 renderAll();
