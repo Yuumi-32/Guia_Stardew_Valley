@@ -103,6 +103,9 @@ Nas marcações do próprio navegador (`localStorage`), no aparelho onde você a
 - o progresso do celular e o do computador são separados;
 - limpar os dados do site apaga tudo — o botão **Zerar tudo** faz o mesmo, mas avisa antes quantas marcações vai apagar.
 
+> [!WARNING]
+> Alguns navegadores simplesmente recusam guardar: aba anônima, dados de site bloqueados, ou o arquivo aberto direto por `file://` em alguns celulares. Nesse caso o guia mostra uma faixa no topo assim que abre — **este navegador não está guardando seu progresso**. Ela existe porque antes o guia se comportava igual nos dois casos: você marcava o dia inteiro, o visto verde aparecia, e nada tinha sido gravado. Se a faixa aparecer, use **Salvar cópia do progresso** antes de fechar; o arquivo `.json` funciona mesmo sem `localStorage`.
+
 ### Cópia do progresso
 
 Embaixo da barra tem **Salvar cópia do progresso**, que baixa um arquivo `.json`, e **Restaurar de um arquivo**, que traz de volta. É como se leva o progresso do celular para o computador, e é a única forma de ter uma cópia — o resto mora só no aparelho.
