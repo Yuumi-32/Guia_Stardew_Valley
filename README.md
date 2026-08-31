@@ -208,11 +208,11 @@ O conteúdo sai pronto de `bubblewrap fingerprint generateAssetLinks`, depois qu
 
 ## Tecnologia
 
-Um arquivo HTML de ~737 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
+Um arquivo HTML de ~743 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
 
 Ao lado dele moram o `manifest.webmanifest`, o `sw.js` e os ícones, que são o que transforma o guia em app instalável. Eles são um acréscimo, não uma dependência: o `index.html` sozinho continua funcionando exatamente como antes, e é isso que você baixa quando prefere o arquivo avulso.
 
-O arquivo cresceu de 76 KB para 737 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
+O arquivo cresceu de 76 KB para 743 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
 
 **Nada vem de fora.** A fonte [Eczar](https://fonts.google.com/specimen/Eczar) também está embutida — o subset latin do arquivo variável, que cobre os pesos 400 a 800 em 26 KB. Abrir o guia não dispara nenhuma requisição de rede, então ele tem a mesma cara com ou sem sinal.
 
