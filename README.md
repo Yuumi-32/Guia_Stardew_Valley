@@ -217,11 +217,11 @@ Os três estão destrinchados em [`docs/publicar.md`](docs/publicar.md), na orde
 
 ## Tecnologia
 
-Um arquivo HTML de ~743 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
+Um arquivo HTML de ~764 KB. Sem framework, sem `npm install`, sem build, sem servidor, sem back-end, sem rastreamento. HTML, CSS e JavaScript puro, tudo junto num arquivo só — é por isso que ele abre offline e vai continuar abrindo daqui a dez anos.
 
 Ao lado dele moram o `manifest.webmanifest`, o `sw.js` e os ícones, que são o que transforma o guia em app instalável. Eles são um acréscimo, não uma dependência: o `index.html` sozinho continua funcionando exatamente como antes, e é isso que você baixa quando prefere o arquivo avulso.
 
-O arquivo cresceu de 76 KB para 743 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
+O arquivo cresceu de 76 KB para 764 KB porque as 555 imagens e a fonte estão **dentro dele**, em base64. Foi de propósito: um guia que precisa baixar retrato da wiki não serve para ler no meio da partida sem sinal.
 
 **Nada vem de fora.** A fonte [Eczar](https://fonts.google.com/specimen/Eczar) também está embutida — o subset latin do arquivo variável, que cobre os pesos 400 a 800 em 26 KB. Abrir o guia não dispara nenhuma requisição de rede, então ele tem a mesma cara com ou sem sinal.
 
@@ -252,6 +252,8 @@ Se for mexer no arquivo, tudo está no `<script>` do fim do `index.html`:
 | `RETRATOS`, `PRESENTES`, `CIMG`, `CALENDARIOS` | as imagens em base64 |
 
 Anos 2 e 3 usam a função `mkEstacao()`, que preenche com a rotina padrão os dias sem evento.
+
+A aba **Ilha** é a exceção: o conteúdo dela é HTML escrito à mão, dentro de `<div id="viewIlha">`, e não sai de constante nenhuma. Ela também não entra na barra de progresso — como Aldeões e Plantações, é material de consulta, não lista de marcar.
 
 ### Refazendo as capturas de `capturas/`
 
