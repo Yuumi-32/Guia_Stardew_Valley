@@ -27,7 +27,7 @@ Nada de abrir dez abas da wiki no meio do jogo. Você abre o dia, lê as 4 ou 5 
 
 **Por que ele existe:** guia de Stardew Valley não falta — mas quase tudo está em inglês, espalhado em várias páginas e depende de internet. Este é grátis, em português, cabe num arquivo só e abre no meio da partida mesmo sem sinal.
 
-## As três abas
+## As quatro abas
 
 ### 📅 Guia dos anos
 
@@ -54,6 +54,14 @@ Plantio, coleta e peixes de cada estação. Cada planta mostra os **estágios de
 Os **57 peixes** trazem onde pescar, a hora, o clima que exigem, a dificuldade com o tipo de fisgada e o tamanho — inclusive os quatro lendários de estação, com o nível de Pesca que cada um cobra.
 
 <img src="docs/imagens/05-plantacoes.png" alt="Aba Plantações na primavera, com a grade de culturas e a ficha do Morango: estágios de crescimento, semente, rebrota e preços" width="880">
+
+### 🏝️ Ilha
+
+A Ilha Gengibre não cabe no calendário: ela abre quando você conserta o barco do Willy, no Verão 15 do Ano 2, e depois disso é um lugar para onde se volta, não um mês para cumprir. Por isso ganhou aba em vez de virar um quarto ano.
+
+Tem o custo do barco e da passagem, as cinco regiões uma a uma, e as **130 nozes douradas** listadas por região — que é a parte que mais faz perder tempo, porque o papagaio do Leo só diz quantas faltam, nunca onde. Junto vão o que cada melhoria custa em noz, a fazenda que planta o ano inteiro, as quatro culturas que só existem lá e os quatro peixes que também.
+
+No fim, **o que vem depois do Ano 3**: as onze categorias da perfeição, com o peso de cada uma, que é a régua que substitui o placar do vovô quando ele fecha.
 
 <details>
 <summary><b>Mais telas</b> — metas da estação, placar do vovô e o guia no celular</summary>
