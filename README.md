@@ -147,6 +147,8 @@ Marcação de uma versão bem antiga do guia, cuja tarefa não existe mais, fica
 | 🕯️ **21 pontos do vovô** | o placar da avaliação, com as 4 velas |
 | 👥 **45 aldeões** | 34 com aniversário, presentes e horário · 12 casáveis |
 | 🌾 **128 itens de estação** | 45 culturas, 26 coletáveis e 57 peixes, todos com ficha completa |
+| 🏝️ **130 nozes douradas** | listadas por região · mais as 4 culturas e os 4 peixes só da ilha |
+| 🏆 **11 categorias de perfeição** | a régua que continua depois que o placar do vovô fecha |
 | 🖼️ **555 imagens embutidas** | retratos, ícones de presente, estágios de cultivo e os 4 calendários |
 
 ## Como ler o calendário
@@ -180,7 +182,8 @@ O plano é virar um app de celular de verdade. O HTML foi o começo justamente p
 - [x] **Virar PWA** — instala na tela inicial com ícone próprio, abre em tela cheia e funciona sem rede, pelo service worker
 - [x] **Empacotar como APK** — o build sai do PWA por TWA, com o `twa-manifest.json` versionado e o workflow `APK`
 - [ ] Publicar na Play Store — falta a chave de release e o `assetlinks.json` num domínio próprio ([roteiro](docs/publicar.md))
-- [ ] Ilha Gengibre e o que vem depois do Ano 3
+- [x] **Ilha Gengibre e o que vem depois do Ano 3** — aba própria, com as cinco regiões, as 130 nozes listadas por região, o que cada uma compra, a fazenda que planta o ano inteiro e as onze categorias da perfeição
+- [ ] Imagens das culturas e dos peixes da ilha — as fichas de lá são as únicas do guia sem sprite, porque essas imagens ainda não foram extraídas
 
 ## O APK
 
