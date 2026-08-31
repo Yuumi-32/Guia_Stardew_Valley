@@ -6,7 +6,7 @@
    A estratégia é servir do cache e buscar a atualização em segundo plano.
    Assim o guia abre na hora, mesmo com sinal ruim no meio da partida, e a
    versão nova entra na próxima vez que você abrir. O contrário — esperar a
-   rede a cada abertura — significaria baixar 737 KB antes de ver o dia de
+   rede a cada abertura — significaria baixar 743 KB antes de ver o dia de
    hoje, que é justamente o que este guia existe para evitar. */
 
 const CACHE = 'guia-stardew-v1';
