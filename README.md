@@ -226,7 +226,7 @@ A **ordem dia a dia é estratégia**, não regra do jogo — dá para jogar de o
 
 Os **57 peixes** estão completos: hora, clima, preço, dificuldade e tamanho de cada um saem da tabela da wiki. O tamanho aparece em centímetros; a wiki dá em polegadas.
 
-O que continua em aberto: a penalidade exata de ouro ao desmaiar às 2h e a tradução oficial de alguns nomes de lugar. Está anotado no fim da página do guia.
+O que continua em aberto: a penalidade exata de ouro ao desmaiar às 2h, se o Bagre exige chuva e a tradução oficial de alguns nomes de lugar. Está anotado no fim da página do guia.
 
 ## Contribuindo
 
