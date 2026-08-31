@@ -193,8 +193,11 @@ body.simples .detail{padding:13px 15px}
 body.simples .bundle h4{margin-bottom:7px}
 
 /* ---------- aldeões ---------- */
-.viewnav{display:flex;gap:7px;margin-bottom:14px}
-.vbtn{flex:1;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 6px;
+/* com a quarta aba, "Plantações" deixou de caber numa linha de celular: agora as
+   abas quebram em duas por linha quando a tela é estreita, e voltam a ficar em
+   uma só quando há largura */
+.viewnav{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.vbtn{flex:1 1 110px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 6px;
   cursor:pointer;font-family:inherit;font-weight:700;font-size:17px;color:var(--muted);
   transition:.14s;text-align:center}
 .vbtn:hover{border-color:#544636;color:var(--ink)}
@@ -323,6 +326,15 @@ body.simples .horanota.so{display:block}
 #viewCultivos{display:none}
 body.cultivos #viewGuia,body.cultivos #viewAldeoes{display:none}
 body.cultivos #viewCultivos{display:block}
+
+/* ---------- ilha gengibre ---------- */
+#viewIlha{display:none}
+body.ilha #viewGuia{display:none}
+body.ilha #viewIlha{display:block}
+/* o conteúdo da ilha é escrito à mão, então o modo simples esconde o inglês por
+   CSS — nas outras abas quem faz isso é o clean(), que só serve para texto gerado */
+body.simples #viewIlha .en{display:none}
+.ilhanota{color:var(--muted);font-size:14.5px;margin:9px 0 0}
 .grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px}
 .cult{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 7px 11px;
   cursor:pointer;text-align:center;font-family:inherit;color:var(--ink);transition:.14s}
@@ -394,6 +406,7 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
     <button class="vbtn on" data-v="guia">Guia dos anos</button>
     <button class="vbtn" data-v="aldeoes">Aldeões</button>
     <button class="vbtn" data-v="cultivos">Plantações</button>
+    <button class="vbtn" data-v="ilha">Ilha</button>
   </div>
 
   <div class="modes" id="modes"></div>
@@ -473,6 +486,42 @@ table.info td:first-child{width:190px;color:var(--muted);font-weight:600}
     <h2>Peixes</h2>
     <div class="grade" id="gradePeixes"></div>
     <div class="fichac" id="fichaCultivo"></div>
+  </div>
+
+  <div id="viewIlha">
+
+    <div class="hint">
+      A Ilha Gengibre não tem calendário. Ela abre quando você conserta o barco do Willy — no roteiro, o Verão 15 do Ano 2 — e a partir dali é um lugar para onde se volta, não um mês para cumprir. Por isso ela mora aqui fora, e não dentro dos três anos.
+    </div>
+
+    <h2>Como abrir</h2>
+    <div class="intro">
+      <b>Antes de qualquer coisa:</b> o Centro Comunitário pronto — ou o Formulário de Melhorias da Joja. Só então o Willy manda a carta chamando você para a sala dos fundos da Peixaria, onde o barco está parado.
+      <br><br>
+      <b>O conserto sai em três partes:</b> casco com 200 Madeira de Lei <span class="en">(Hardwood)</span>, âncora com 5 Barras de Irídio e bilheteria com 5 Baterias <span class="en">(Battery Pack)</span>. Depois disso cada ida custa <b>1.000 ouros</b>; a volta é de graça, pelo mesmo cais.
+      <br><br>
+      <b>O tempo lá é outro.</b> Pode chover na ilha sem chover no vale, e a previsão da TV passa a mostrar as duas. Isso importa mais do que parece: dois dos quebra-cabeças de noz — a sereia e os pássaros-gema — só acontecem em dia de chuva na ilha.
+    </div>
+
+    <h2>As cinco regiões</h2>
+    <div id="ilhaRegioes">
+      <div class="painel"><button class="pcab geral" aria-expanded="false">Sul — onde o barco atraca<span class="tog">[Mostrar]</span></button><div class="pcorpo">
+        Cais, praia e a sala de trocas. Por <b>20 nozes</b> a praia vira <b>Resort da Praia</b>: alguns moradores da Vila Pelicanos passam a aparecer das 11h às 18h, em dias sem chuva e fora de festival, e o Gus abre um bar por lá. Dá para fechar o resort quando quiser, num cadeado entre as duas portas da sala de trocas.
+      </div></div>
+      <div class="painel"><button class="pcab outono" aria-expanded="false">Sudeste — piratas e sereia<span class="tog">[Mostrar]</span></button><div class="pcorpo">
+        Só passa a existir depois do resort; fica a leste das docas. Tem o lago em forma de estrela, a rocha onde a sereia aparece nos dias de chuva e a <b>Caverna do Pirata</b> — que só tem pirata em noites sem chuva, depois das 20h, em dias pares. Dentro dela é o único lugar do jogo onde se pesca <b>Arraia</b>.
+      </div></div>
+      <div class="painel"><button class="pcab primavera" aria-expanded="false">Leste — a selva e o Leo<span class="tog">[Mostrar]</span></button><div class="pcorpo">
+        A selva e a cabana do <b>Leo</b>. O papagaio que mora com ele diz quantas nozes ainda faltam em cada área — é o contador oficial, e vale conferir antes de sair procurando. Seguindo o caminho de pedra para leste fica o santuário dos <b>pássaros-gema</b>.
+      </div></div>
+      <div class="painel"><button class="pcab desvios" aria-expanded="false">Norte — o vulcão (1 noz)<span class="tog">[Mostrar]</span></button><div class="pcorpo">
+        Abre por <b>1 noz</b>, paga ao papagaio da casa do Leo. Aqui ficam o <b>vulcão</b>, de dez andares, com loja no 5º e a <b>Forja</b> no 10º; o <b>Escritório local da ilha</b>, que só funciona depois de você soltar o Professor Caracol da caverna dos cogumelos com uma bomba, e que paga nozes por fósseis e relatórios; o <b>local de escavação</b>, cuja ponte quebrada os papagaios consertam por <b>10 nozes</b>; e o <b>Comerciante da Ilha</b>, que abre por <b>10 nozes</b> e não aceita ouro — só troca item por item.
+      </div></div>
+      <div class="painel"><button class="pcab inverno" aria-expanded="false">Oeste — a fazenda (10 nozes)<span class="tog">[Mostrar]</span></button><div class="pcorpo">
+        Uma tartaruga bloqueia a passagem até você pagar <b>10 nozes</b> — e o papagaio dessa área só aparece depois de dar 1 noz ao papagaio da casa do Leo. Do outro lado estão a <b>fazenda</b>, a praia da <b>Passarinha</b>, o bosque das gosmas-tigre, a caverna do quebra-cabeça de cores e, subindo a costa, a porta do <b>Sr. Qi</b> — que abre quando o save registra <b>100 nozes</b> no total.
+      </div></div>
+    </div>
+
   </div>
 
   <h2 id="accTitle">Sobre a precisão deste guia</h2>
@@ -1697,12 +1746,13 @@ function abrirAba(v){
   });
   document.body.classList.toggle('aldeoes', v==='aldeoes');
   document.body.classList.toggle('cultivos', v==='cultivos');
+  document.body.classList.toggle('ilha', v==='ilha');
   pref.gravar('aba',v);
 }
 $('viewnav').querySelectorAll('.vbtn').forEach(function(b){
   b.onclick=function(){abrirAba(b.dataset.v)};
 });
-abrirAba(pref.ler('aba','guia',['guia','aldeoes','cultivos']));
+abrirAba(pref.ler('aba','guia',['guia','aldeoes','cultivos','ilha']));
 renderFiltros();renderGalerias();renderFicha();
 
 /* ================= PLANTAÇÕES ================= */
@@ -1998,6 +2048,17 @@ $('arquivoProgresso').onchange=function(e){
   };
   leitor.readAsText(arq);
 };
+
+/* ---------- ilha gengibre ----------
+   Os painéis daqui são escritos à mão no HTML, não gerados, então precisam do
+   mesmo abre-e-fecha que os horários dos aldeões ganham ao serem montados. */
+document.querySelectorAll('#viewIlha .pcab').forEach(function(b){
+  b.onclick=function(){
+    const abriu=b.parentNode.classList.toggle('aberto');
+    b.setAttribute('aria-expanded', abriu);
+    b.querySelector('.tog').textContent=abriu?'[Ocultar]':'[Mostrar]';
+  };
+});
 
 /* ---------- instalar o guia ----------
    Service worker só existe em http(s). Baixado e aberto por file://, que é o
