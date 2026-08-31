@@ -208,16 +208,17 @@ aqui, e o APK serve para instalar direto no aparelho e testar antes.
 | Descrição curta | dá para partir do `description` do [`manifest.webmanifest`](../manifest.webmanifest) |
 | Descrição longa | dá para partir do "O que é isto" do README |
 | Imagem de destaque 1024×500 | não existe ainda |
-| Política de privacidade, com URL pública | não existe ainda |
+| Política de privacidade, com URL pública | [`privacidade.html`](../privacidade.html), publicada em `https://yuumi-32.github.io/Guia_Stardew_Valley/privacidade.html` |
 | Classificação indicativa | questionário no Console |
 
-A política de privacidade é curta neste caso — o guia não coleta nada, não tem conta,
-não tem rastreamento, e o progresso não sai do aparelho —, mas a loja exige a URL de
-qualquer jeito. Uma página no próprio Pages resolve.
+A política de privacidade já está escrita e sobe junto com o site — o guia não coleta
+nada, não tem conta, não tem rastreamento e o progresso não sai do aparelho, mas a
+loja exige a URL de qualquer jeito. Leia antes de colar o endereço no Console: quem
+responde por ela é você.
 
 - [ ] conta de desenvolvedor criada e verificada
 - [ ] período de teste cumprido, se ainda for exigido
-- [ ] política de privacidade publicada
+- [x] política de privacidade escrita — publica junto com o site, no próximo push
 - [ ] imagem de destaque feita
 - [ ] `.aab` enviado
 - [ ] ficha preenchida e classificação respondida
