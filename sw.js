@@ -13,6 +13,7 @@ const CACHE = 'guia-stardew-v1';
 const ESSENCIAIS = [
   './',
   './index.html',
+  './privacidade.html',
   './manifest.webmanifest',
   './icones/icone-192.png',
   './icones/icone-512.png',
@@ -43,10 +44,14 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
-  if (new URL(e.request.url).origin !== self.location.origin) return;
+  const url = new URL(e.request.url);
+  if (url.origin !== self.location.origin) return;
 
-  /* navegar para qualquer endereço do guia devolve o index.html: é uma página só */
-  const chave = e.request.mode === 'navigate' ? './index.html' : e.request;
+  /* navegar para qualquer endereço do guia devolve o index.html: o guia é uma
+     página só. A exceção são as páginas avulsas do site — hoje só a política de
+     privacidade —, que respondem por si mesmas; sem isso elas abririam o guia. */
+  const avulsa = url.pathname.endsWith('.html') && !url.pathname.endsWith('/index.html');
+  const chave = (e.request.mode === 'navigate' && !avulsa) ? './index.html' : e.request;
 
   e.respondWith(
     caches.open(CACHE).then(function (cache) {
