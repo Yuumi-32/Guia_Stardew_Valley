@@ -182,7 +182,7 @@ O `twa-manifest.json` guarda a configuração do build. Para gerar localmente:
 npx @bubblewrap/cli@1.25.0 update --skipVersionUpgrade && npx @bubblewrap/cli@1.25.0 build
 ```
 
-Precisa de JDK 17+ e do Android SDK. No CI, o workflow **APK** faz o mesmo — rode pelo botão *Run workflow*, ou publique uma tag `v*` para o APK e o AAB saírem anexados à Release.
+Precisa de JDK 17+ e do Android SDK. No CI, o workflow **APK** faz o mesmo — rode pelo botão *Run workflow*, ou publique uma tag `v*` para o APK e o AAB saírem anexados à Release. Ele ainda não rodou nenhuma vez: sem os secrets da chave ele não tem com o que assinar, e por isso a esteira do CI continua não verificada.
 
 > [!NOTE]
 > Construindo na sua máquina com o SDK do Android Studio, o Bubblewrap para com *"The provided androidSdk isn't correct"*. Não é o SDK que está errado: ele exige uma pasta `tools` ou `bin` na raiz do SDK, que o layout do Android Studio não tem. Dá para contornar apontando o `androidSdkPath` do `~/.bubblewrap/config.json` para uma pasta espelho — um diretório com um `bin` vazio e junções para o `build-tools`, `platforms` e `platform-tools` do SDK de verdade. No CI o problema não existe, porque a action instala o SDK no layout que ele espera.
