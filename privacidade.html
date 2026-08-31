@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacidade — Guia Stardew Valley</title>
+<meta name="description" content="Política de privacidade do Guia Stardew Valley: o guia não coleta nada, e o progresso não sai do seu aparelho.">
+<meta name="author" content="Yuumi-32">
+<meta name="theme-color" content="#15120e">
+<meta name="color-scheme" content="dark">
+<link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+<style>
+/* Página avulsa, de propósito: ela existe porque a Play Store exige uma URL de
+   política de privacidade, e não faz sentido carregar isso dentro do guia. Sem
+   fonte embutida — o texto cai no serif do sistema e fica igualmente legível. */
+:root{
+  color-scheme: dark;
+  --bg:#15120e; --card:#221d17;
+  --ink:#f2e8d5; --muted:#a3937a;
+  --line:#3a3128;
+  --accent:#84c254;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:16px;line-height:1.6;padding:24px 16px 56px;
+  -webkit-font-smoothing:antialiased}
+@supports (padding:env(safe-area-inset-top)){
+  body{padding-top:max(24px,env(safe-area-inset-top));
+       padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+}
+main{max-width:680px;margin:0 auto}
+h1{font-size:26px;line-height:1.25;margin:0 0 4px}
+h2{font-size:19px;margin:32px 0 8px;color:var(--accent)}
+p,ul{margin:0 0 12px}
+ul{padding-left:22px}
+li{margin:0 0 6px}
+a{color:var(--accent)}
+.data{color:var(--muted);font-size:14px;margin:0 0 28px}
+.resumo{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;margin:0 0 8px}
+.resumo p{margin:0}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Privacidade</h1>
+<p class="data">Guia Stardew Valley · atualizada em 31 de agosto de 2026</p>
+
+<div class="resumo">
+  <p>O guia não coleta nada. Não tem conta, não tem login, não tem rastreamento e
+  não manda nada para lugar nenhum. O que você marca fica guardado no seu próprio
+  aparelho.</p>
+</div>
+
+<h2>O que fica guardado</h2>
+<p>Nas marcações do próprio navegador (<code>localStorage</code>), no aparelho onde
+você abriu o guia:</p>
+<ul>
+  <li>as tarefas e os itens de conjunto que você marcou;</li>
+  <li>a aba, o ano, a estação e o dia que estavam abertos, para o guia reabrir
+  onde você parou;</li>
+  <li>a escolha entre modo simples e modo detalhado, e a estação aberta na aba
+  Plantações.</li>
+</ul>
+<p>Só isso. Não há nome, e-mail, identificador de aparelho, localização nem
+qualquer coisa que sirva para reconhecer você.</p>
+
+<h2>O que sai do aparelho</h2>
+<p>Nada. Não existe servidor deste guia para onde mandar: o arquivo é aberto e
+lido no seu aparelho, e o que é gravado fica onde foi gravado. O progresso do
+celular e o do computador nem se conhecem.</p>
+<p>O botão <b>Salvar cópia do progresso</b> gera um arquivo <code>.json</code> no
+seu aparelho. Ele é seu — vai para onde você mandar, e o guia não tem parte nisso.</p>
+
+<h2>Rede</h2>
+<p>Abrir o guia não dispara nenhuma requisição para fora. As 555 imagens e a fonte
+estão dentro do próprio arquivo, então não há CDN, não há fonte remota, não há
+pixel de rastreamento e não há como um terceiro saber que você abriu o guia.</p>
+
+<h2>Hospedagem</h2>
+<p>A versão on-line fica no GitHub Pages. Como qualquer servidor da internet, o
+GitHub registra os acessos que recebe — endereço IP, horário, navegador. Esses
+registros são do GitHub, seguem a
+<a href="https://docs.github.com/pt/site-policy/privacy-policies/github-general-privacy-statement">política de privacidade dele</a>,
+e não passam pelas minhas mãos. Depois que o guia é instalado, ele abre sem rede e
+sem tocar no servidor.</p>
+
+<h2>O app Android</h2>
+<p>O app é este mesmo site rodando em tela cheia pelo motor do Chrome. Ele não pede
+nenhuma permissão do sistema — nem câmera, nem contatos, nem localização, nem
+notificação — e não muda nada do que está escrito acima.</p>
+
+<h2>Como apagar tudo</h2>
+<ul>
+  <li>o botão <b>Zerar tudo</b>, dentro do guia, apaga as marcações (ele avisa
+  quantas são antes de apagar);</li>
+  <li>limpar os dados do site, pelo navegador, apaga o mesmo;</li>
+  <li>desinstalar o app leva junto o que ele guardou.</li>
+</ul>
+<p>Como nada foi enviado para lugar nenhum, apagar no aparelho é apagar de vez —
+não há cópia em servidor nenhum para pedir remoção.</p>
+
+<h2>Crianças</h2>
+<p>O guia não coleta dado nenhum, de ninguém, de qualquer idade.</p>
+
+<h2>Mudanças</h2>
+<p>Se esta política mudar, a data no topo muda junto, e o histórico inteiro fica
+público no repositório.</p>
+
+<h2>Contato</h2>
+<p>Dúvida ou correção:
+<a href="https://github.com/Yuumi-32/Guia_Stardew_Valley/issues">abra uma issue no
+repositório</a>.</p>
+
+<footer>
+  <a href="./">← Voltar para o guia</a>
+</footer>
+
+</main>
+</body>
+</html>
